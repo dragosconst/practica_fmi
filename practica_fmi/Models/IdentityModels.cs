@@ -23,6 +23,7 @@ namespace practica_fmi.Models
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, practica_fmi.Migrations.Configuration>("DefaultConnection"));
         }
 
         public static ApplicationDbContext Create()
