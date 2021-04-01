@@ -26,6 +26,9 @@ namespace practica_fmi.Models
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, practica_fmi.Migrations.Configuration>("DefaultConnection"));
         }
 
+        public DbSet<Student> Students { get; set; }
+        public DbSet<Profesor> Profesors { get; set; }
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
