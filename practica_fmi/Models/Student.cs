@@ -6,7 +6,7 @@ using System.Web;
 
 namespace practica_fmi.Models
 {
-    public class Student
+    public class Student : ApplicationUser
     {
         [Key]
         public int StudentId { get; set; }
