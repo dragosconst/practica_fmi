@@ -171,12 +171,13 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ProfesorsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202103312010210_Initial.cs" />
-    <Compile Include="Migrations\202103312010210_Initial.designer.cs">
-      <DependentUpon>202103312010210_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\202104021736171_rdInit.cs" />
+    <Compile Include="Migrations\202104021736171_rdInit.designer.cs">
+      <DependentUpon>202104021736171_rdInit.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -247,6 +248,9 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Profesors\Index.cshtml" />
+    <Content Include="Views\Profesors\New.cshtml" />
+    <Content Include="Views\Profesors\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -263,8 +267,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202103312010210_Initial.resx">
-      <DependentUpon>202103312010210_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202104021736171_rdInit.resx">
+      <DependentUpon>202104021736171_rdInit.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

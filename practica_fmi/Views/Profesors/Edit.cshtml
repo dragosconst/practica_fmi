@@ -1,0 +1,30 @@
+﻿@model practica_fmi.Models.Profesor
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+@using (Html.BeginForm("Edit", "Profesors", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.HttpMethodOverride(HttpVerbs.Put)
+
+    <br />
+    @Html.HiddenFor(p => p.ProfesorId)
+
+    @Html.Label("Nume", "Nume profesor", new { htmlAttributes = new { @class = "form-control" } })
+    @Html.EditorFor(p => p.Nume)
+    @Html.ValidationMessage("Nume", null, new { @class = "text-danger" })
+    <br />
+
+    @Html.Label("Prenume", "Prenume profesor", new { htmlAttributes = new { @class = "form-control" } })
+    @Html.EditorFor(p => p.Prenume)
+    @Html.ValidationMessage("Prenume", null, new { @class = "text-danger" })
+    <br />
+
+    @Html.Label("Email", "Email profesor", new { htmlAttributes = new { @class = "form-control" } })
+    @Html.EditorFor(p => p.Email)
+    @Html.ValidationMessage("Email", null, new { @class = "text-danger" })
+    <br />
+
+    <button class="btn btn-sm btn-success" type="submit">Modifică produs</button>
+}

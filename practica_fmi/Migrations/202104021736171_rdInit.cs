@@ -3,10 +3,23 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Initial : DbMigration
+    public partial class rdInit : DbMigration
     {
         public override void Up()
         {
+            CreateTable(
+                "dbo.Profesors",
+                c => new
+                    {
+                        ProfesorId = c.Int(nullable: false, identity: true),
+                        UserId = c.String(),
+                        Email = c.String(nullable: false),
+                        Nume = c.String(nullable: false),
+                        Prenume = c.String(nullable: false),
+                        GradDidactic = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.ProfesorId);
+            
             CreateTable(
                 "dbo.AspNetRoles",
                 c => new
@@ -31,12 +44,15 @@
                 .Index(t => t.RoleId);
             
             CreateTable(
-                "dbo.Tests",
+                "dbo.Students",
                 c => new
                     {
-                        TestId = c.Int(nullable: false, identity: true),
+                        StudentId = c.Int(nullable: false, identity: true),
+                        Nume = c.String(),
+                        Prenume = c.String(),
+                        AnStudiu = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => t.TestId);
+                .PrimaryKey(t => t.StudentId);
             
             CreateTable(
                 "dbo.AspNetUsers",
@@ -100,9 +116,10 @@
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
-            DropTable("dbo.Tests");
+            DropTable("dbo.Students");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetRoles");
+            DropTable("dbo.Profesors");
         }
     }
 }

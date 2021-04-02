@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<h2>@ViewBag.messsage</h2>
+<h2>Toți profesorii</h2>
+
+<div>
+    @foreach (practica_fmi.Models.Profesor profesor in ViewBag.profs)
+    {
+        <div class="panel panel-default">
+            <p>@profesor.Nume @profesor.Prenume</p>
+            <br />
+            <p>@profesor.GradDidactic</p>
+            <br />
+            <p>@profesor.Email</p>
+            <br />
+            <div class="panel-footer">
+                <a href="/Profesors/Edit/@profesor.ProfesorId" class="btn btn-primary pull-left">Editează</a>
+                <form method="post" action="/Profesors/Delete/@profesor.ProfesorId">
+                    @Html.HttpMethodOverride(HttpVerbs.Delete)
+                    <button class="btn btn-danger pull-right" type="submit">Șterge</button>
+                </form>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    }
+    <a href="/Profesors/New/" class="btn btn-success">Adaugă un prof nou</a>
+</div>
+
