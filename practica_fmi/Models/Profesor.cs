@@ -12,9 +12,12 @@ namespace practica_fmi.Models
         [Key]
         public int ProfesorId { get; set; }
 
+        [Required(ErrorMessage = "Numele este obligatoriu")]
         public string Nume { get; set; }
+        [Required(ErrorMessage = "Prenumele este obligatoriu")]
         public string Prenume { get; set; }
 
+        [Required(ErrorMessage = "Gradul didactic este obligatoriu")]
         public int GradDidactic { get; set; }
     }
 }
