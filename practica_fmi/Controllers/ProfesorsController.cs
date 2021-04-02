@@ -81,5 +81,55 @@ namespace practica_fmi.Controllers
                 return View(profesor);
             }
         }
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult Edit(int id)
+        {
+            Profesor profesor = (from prof in db.Profesors
+                                 where prof.ProfesorId == id
+                                 select prof).First();
+            
+            return View(profesor);
+        }
+
+        [HttpPut]
+        [Authorize(Roles = "Admin")]
+        public async System.Threading.Tasks.Task<ActionResult> Edit(int id, Profesor reqProf)
+        {
+            try
+            {
+                if(ModelState.IsValid)
+                {
+                    Profesor profesor = (from prof in db.Profesors
+                                         where prof.ProfesorId == id
+                                         select prof).First();
+        
+                    var UserManager = new UserManager<Profesor>(new UserStore<Profesor>(db));
+
+                    profesor.Nume = reqProf.Nume;
+                    profesor.Prenume = reqProf.Prenume;
+                    profesor.Email = reqProf.Email;
+                    //profesor.UserName = profesor.Email;
+
+                    await UserManager.UpdateAsync(profesor);
+
+                    TempData["message"] = "Profesorul a fost modificat";
+                    return RedirectToAction("Index");
+                }
+                return View(reqProf);
+            }
+            catch (DbEntityValidationException ex)
+            {
+                foreach (var entityValidationErrors in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationErrors.ValidationErrors)
+                    {
+                        Response.Write("Property: " + validationError.PropertyName + " Error: " + validationError.ErrorMessage);
+                    }
+                }
+                TempData["message"] = "Eroare la adaugarea profesorului";
+                return View(reqProf);
+            }
+        }
     }
 }
