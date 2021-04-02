@@ -1,0 +1,38 @@
+﻿@model practica_fmi.Models.Student
+@{
+    ViewBag.Title = "New";
+}
+
+<h2>@ViewBag.messsage</h2>
+
+@using (Html.BeginForm("New", "Students", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary()
+
+    <br />
+    @Html.Label("Nume", "Nume student")
+    @Html.TextBox("Nume", null, new { @class = "form-control" })
+    @Html.ValidationMessage("Nume", null, new { @class = "text-danger" })
+    <br />
+
+    <br />
+    @Html.Label("Prenume", "Prenume student")
+    @Html.TextBox("Prenume", null, new { @class = "form-control" })
+    @Html.ValidationMessage("Prenume", null, new { @class = "text-danger" })
+    <br />
+
+    <br />
+    @Html.Label("AnStudiu", "An studiu student")
+    @Html.TextBox("AnStudiu", null, new { @class = "form-control" })
+    @Html.ValidationMessage("AnStudiu", null, new { @class = "text-danger" })
+    <br />
+
+    <br />
+    @Html.Label("Email", "Email student")
+    @Html.TextBox("Email", null, new { @class = "form-control" })
+    @Html.ValidationMessage("Email", null, new { @class = "text-danger" })
+    <br />
+
+    <button type="submit" class="btn btn-success">Adaugă</button>
+}
+
