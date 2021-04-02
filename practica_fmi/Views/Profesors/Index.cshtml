@@ -15,9 +15,16 @@
             <br />
             <p>@profesor.Email</p>
             <br />
-            <a href="/Profesors/Edit/@profesor.ProfesorId">Editează</a>
+            <div class="panel-footer">
+                <a href="/Profesors/Edit/@profesor.ProfesorId" class="btn btn-primary pull-left">Editează</a>
+                <form method="post" action="/Profesors/Delete/@profesor.ProfesorId">
+                    @Html.HttpMethodOverride(HttpVerbs.Delete)
+                    <button class="btn btn-danger pull-right" type="submit">Șterge</button>
+                </form>
+                <div class="clearfix"></div>
+            </div>
         </div>
     }
-    <a href="/Profesors/New/" class="btn btn-primary">Adaugă un prof nou</a>
+    <a href="/Profesors/New/" class="btn btn-success">Adaugă un prof nou</a>
 </div>
 

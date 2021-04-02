@@ -7,6 +7,7 @@ using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace practica_fmi.Controllers
 {
@@ -130,6 +131,19 @@ namespace practica_fmi.Controllers
                 TempData["message"] = "Eroare la adaugarea profesorului";
                 return View(reqProf);
             }
+        }
+
+        [HttpDelete]
+        [Authorize(Roles = "Admin")]
+        public ActionResult Delete(int id)
+        {
+            Profesor profesor = (from prof in db.Profesors
+                                 where prof.ProfesorId == id
+                                 select prof).First();
+            db.Profesors.Remove(profesor);
+            db.SaveChanges();
+            TempData["message"] = "Profesorul a fost șters";
+            return RedirectToAction("Index");
         }
     }
 }
