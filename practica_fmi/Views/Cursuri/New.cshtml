@@ -1,0 +1,19 @@
+﻿@model practica_fmi.Models.Curs
+@{
+    ViewBag.Title = "New";
+}
+
+<h2>@ViewBag.messsage</h2>
+
+@using (Html.BeginForm("New", "Cursuri", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary()
+
+    <br />
+    @Html.Label("Denumire", "Denumire curs")
+    @Html.EditorFor(c => c.Denumire)
+    @Html.ValidationMessage("Denumire", null, new { @class = "text-danger" })
+    
+    <button type="submit" class="btn btn-success">Adaugă</button>
+}
+

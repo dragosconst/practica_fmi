@@ -1,0 +1,20 @@
+﻿@model practica_fmi.Models.Curs
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+@using (Html.BeginForm("Edit", "Cursuri", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.HttpMethodOverride(HttpVerbs.Put)
+
+    <br />
+    @Html.HiddenFor(c => c.CursId)
+
+    @Html.LabelFor(c => c.Denumire, "Denumire curs", new { htmlAttributes = new { @class = "form-control" } })
+    @Html.EditorFor(c => c.Denumire)
+    @Html.ValidationMessage("Denumire", null, new { @class = "text-danger" })
+    <br />
+
+    <button type="submit" class="btn btn-success">Modifică</button>
+}

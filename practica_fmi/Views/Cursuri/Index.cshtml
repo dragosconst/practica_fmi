@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>@ViewBag.messsage</h2>
+<h2>Toate cursurile</h2>
+
+<div>
+    @foreach (practica_fmi.Models.Curs curs in ViewBag.curs)
+    {
+        <div class="panel panel-default">
+            <p>@curs.Denumire </p>
+            <br />
+            <div class="panel-footer">
+                <a href="/Cursuri/Edit/@curs.CursId" class="btn btn-primary pull-left">Editează</a>
+                <form method="post" action="/Cursuri/Delete/@curs.CursId">
+                    @Html.HttpMethodOverride(HttpVerbs.Delete)
+                    <button class="btn btn-danger pull-right" type="submit">Șterge</button>
+                </form>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    }
+    <a href="/Cursuri/New/" class="btn btn-success">Adaugă un curs nou</a>
+</div>
