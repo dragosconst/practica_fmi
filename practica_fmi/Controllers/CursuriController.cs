@@ -31,22 +31,47 @@ namespace practica_fmi.Controllers
         public ActionResult New()
         {
             Curs curs = new Curs();
+            var cursViewModel = new CursViewModel
+            {
+                Curs = curs,
+            };
+
+            var allProfsList = db.Profesors.ToList();
+            cursViewModel.AllProfIds = allProfsList.Select(o => new SelectListItem
+            {
+                Text = o.Nume + " " + o.Prenume,
+                Value = o.ProfesorId.ToString()
+            });
             if (TempData.ContainsKey("message"))
             {
                 ViewBag.message = TempData["message"].ToString();
             }
-            return View(curs);
+            return View(cursViewModel);
         }
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public ActionResult New(Curs newCurs)
+        public ActionResult New(CursViewModel newCurs)
         {
             try
             {
                 if(ModelState.IsValid)
                 {
-                    db.Cursuri.Add(newCurs);
+                    Curs toAdd = new Curs();
+
+                    var allProfs = db.Profesors.ToList();
+                    List<Profesor> selProfs = new List<Profesor>();
+                    foreach (var prof in allProfs)
+                    {
+                        if (newCurs.SelectedProfIds.Contains(prof.ProfesorId))
+                        {
+                            selProfs.Add(prof);
+                        }
+                    }
+                    toAdd.Denumire = newCurs.Curs.Denumire;
+                    toAdd.Profesors = selProfs;
+                    toAdd.Students = null;
+                    db.Cursuri.Add(toAdd);
                     db.SaveChanges();
                     TempData["message"] = "Un curs nou a fost adaugat";
                     ViewBag.profs = GetProfesors();
@@ -116,7 +141,6 @@ namespace practica_fmi.Controllers
                         }
                     }
                     toChange.Denumire = reqCurs.Curs.Denumire;
-                    toChange.Profesors = null;
                     toChange.Profesors = selProfs;
                     toChange.Students = reqCurs.Curs.Students;
 

@@ -1,4 +1,4 @@
-﻿@model practica_fmi.Models.Curs
+﻿@model practica_fmi.Models.CursViewModel
 @{
     ViewBag.Title = "New";
 }
@@ -11,9 +11,12 @@
 
     <br />
     @Html.Label("Denumire", "Denumire curs")
-    @Html.EditorFor(c => c.Denumire)
+    @Html.EditorFor(c => c.Curs.Denumire)
     @Html.ValidationMessage("Denumire", null, new { @class = "text-danger" })
-    
+    <br />
+    <label>Adaugă profesor</label>
+    @Html.ListBoxFor(c => c.SelectedProfIds, Model.AllProfIds)
+
     <button type="submit" class="btn btn-success">Adaugă</button>
 }
 
