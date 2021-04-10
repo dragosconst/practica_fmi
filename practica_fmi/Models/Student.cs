@@ -8,6 +8,11 @@ namespace practica_fmi.Models
 {
     public class Student
     {
+        public Student()
+        {
+            Cursuri = new HashSet<Curs>();
+        }
+
         [Key]
         public int StudentId { get; set; }
         public string UserId { get; set; }
@@ -22,5 +27,8 @@ namespace practica_fmi.Models
 
         [Required(ErrorMessage = "Anul de studiu este obligatoriu")]
         public int AnStudiu { get; set; }
+
+
+        public virtual ICollection<Curs> Cursuri { get; set; }
     }
 }

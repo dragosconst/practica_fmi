@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -8,6 +9,11 @@ namespace practica_fmi.Models
 {
     public class Profesor
     {
+        public Profesor()
+        {
+            Cursuri = new HashSet<Curs>();
+        }
+
         [Key]
         public int ProfesorId { get; set; }
 
@@ -24,5 +30,7 @@ namespace practica_fmi.Models
 
         [Required(ErrorMessage = "Gradul didactic este obligatoriu")]
         public int GradDidactic { get; set; }
+
+        public virtual ICollection<Curs> Cursuri { get; set; }
     }
 }

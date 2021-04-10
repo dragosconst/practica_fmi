@@ -1,20 +1,24 @@
-﻿@model practica_fmi.Models.Curs
+﻿@model practica_fmi.Models.CursViewModel
 @{
     ViewBag.Title = "Edit";
 }
 
 <h2>Edit</h2>
-@using (Html.BeginForm("Edit", "Cursuri", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Edit", "Cursuri", FormMethod.Post, new { enctype = "multipart/form-data", runat = "server" }))
 {
     @Html.HttpMethodOverride(HttpVerbs.Put)
 
     <br />
-    @Html.HiddenFor(c => c.CursId)
+    @Html.HiddenFor(c => c.Curs.CursId)
 
-    @Html.LabelFor(c => c.Denumire, "Denumire curs", new { htmlAttributes = new { @class = "form-control" } })
-    @Html.EditorFor(c => c.Denumire)
+    @Html.LabelFor(c => c.Curs.Denumire, "Denumire curs", new { htmlAttributes = new { @class = "form-control" } })
+    @Html.EditorFor(c => c.Curs.Denumire)
     @Html.ValidationMessage("Denumire", null, new { @class = "text-danger" })
     <br />
-
+    <label>Adaugă profesor</label>
+    @Html.ListBoxFor(c => c.SelectedProfIds, Model.AllProfIds)
+    @*@Html.DropDownListFor(c => c.Profesors, new SelectList(ViewBag.profs, "Value", "Text"), "Selectați proful",
+    new { @class = "form-control", @onchange = "javascript:addProfesor(this)", @id="dprof" })*@
+    <br />
     <button type="submit" class="btn btn-success">Modifică</button>
 }

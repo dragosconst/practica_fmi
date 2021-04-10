@@ -70,27 +70,57 @@ namespace practica_fmi.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int id)    
         {
             Curs curs = db.Cursuri.Find(id);
             ViewBag.profs = GetProfesors();
             ViewBag.students = GetStudents();
-            return View(curs);
+
+            var cursViewModel = new CursViewModel
+            {
+                Curs = db.Cursuri.Include("Profesors").Include("Students").First(c => c.CursId == id),
+            };
+            if (cursViewModel.Curs == null)
+                return HttpNotFound();
+
+            var allProfsList = db.Profesors.ToList();
+            cursViewModel.AllProfIds = allProfsList.Select(o => new SelectListItem
+            {
+                Text = o.Nume + " " + o.Prenume,
+                Value = o.ProfesorId.ToString()
+            });
+
+
+            return View(cursViewModel);
         }
 
         [HttpPut]
         [Authorize(Roles = "Admin")]
-        public ActionResult Edit(int id, Curs reqCurs)
+        public ActionResult Edit(int id, CursViewModel reqCurs)
         {
             try
             {
                 if(ModelState.IsValid)
                 {
                     Curs toChange = db.Cursuri.Find(id);
+                    db.Cursuri.Remove(toChange); // perhaps not the greatest idea
+                    db.SaveChanges();
 
-                    toChange.Denumire = reqCurs.Denumire;
-                    toChange.Profesors = reqCurs.Profesors;
-                    toChange.Students = reqCurs.Students;
+                    var allProfs = db.Profesors.ToList();
+                    List<Profesor> selProfs = new List<Profesor>();
+                    foreach(var prof in allProfs)
+                    {
+                        if(reqCurs.SelectedProfIds.Contains(prof.ProfesorId))
+                        {
+                            selProfs.Add(prof);
+                        }
+                    }
+                    toChange.Denumire = reqCurs.Curs.Denumire;
+                    toChange.Profesors = null;
+                    toChange.Profesors = selProfs;
+                    toChange.Students = reqCurs.Curs.Students;
+
+                    db.Cursuri.Add(toChange);
                     db.SaveChanges();
                     TempData["message"] = "Cursul a fost modificat";
                     return RedirectToAction("Index");
@@ -121,21 +151,44 @@ namespace practica_fmi.Controllers
             Curs toDelete = db.Cursuri.Find(id);
             db.Cursuri.Remove(toDelete);
             TempData["message"] = "Cursul a fost șters";
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 
-        private ICollection<Profesor> GetProfesors()
+        [NonAction]
+        private IEnumerable<SelectListItem> GetProfesors()
         {
             var profesori = (from prof in db.Profesors
                              select prof).AsQueryable().ToList();
-            return profesori;
+            var selectList = new List<SelectListItem>();
+
+            foreach(var prof in profesori)
+            {
+                selectList.Add(new SelectListItem
+                {
+                    Text = prof.Nume.ToString() + " " + prof.Prenume.ToString(),
+                    Value = prof.ProfesorId.ToString()
+                });
+            }
+            return selectList;
         }
 
-        private ICollection<Student> GetStudents()
+        [NonAction]
+        private ICollection<SelectListItem> GetStudents()
         {
             var students = (from student in db.Students
                             select student).AsQueryable().ToList();
-            return students;
+            var selectList = new List<SelectListItem>();
+
+            foreach (var std in students)
+            {
+                selectList.Add(new SelectListItem
+                {
+                    Text = std.Nume.ToString() + " " + std.Prenume.ToString(),
+                    Value = std.StudentId.ToString()
+                });
+            }
+            return selectList;
         }
     }
 }
