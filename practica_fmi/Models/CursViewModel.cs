@@ -10,8 +10,10 @@ namespace practica_fmi.Models
     {
         public Curs Curs { get; set; }
         public IEnumerable<SelectListItem> AllProfIds { get; set; }
+        public IEnumerable<SelectListItem> AllStudentIds { get; set; }
 
         private List<int> _selectedProfIds { get; set; }
+        private List<int> _selectedStudentIds { get; set; }
         public List<int> SelectedProfIds
         {
             get
@@ -25,6 +27,21 @@ namespace practica_fmi.Models
             set
             {
                 _selectedProfIds = value;
+            }
+        }
+        public List<int> SelectedStudentsIds
+        {
+            get
+            {
+                if(_selectedStudentIds == null)
+                {
+                    _selectedStudentIds = Curs.Students.Select(s => s.StudentId).ToList();
+                }
+                return _selectedStudentIds;
+            }
+            set
+            {
+                _selectedStudentIds = value;
             }
         }
     }

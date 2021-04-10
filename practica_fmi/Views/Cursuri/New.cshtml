@@ -16,6 +16,9 @@
     <br />
     <label>Adaugă profesor</label>
     @Html.ListBoxFor(c => c.SelectedProfIds, Model.AllProfIds)
+    <br />
+    <label>Adaugă student</label>
+    @Html.ListBoxFor(c => c.SelectedStudentsIds, Model.AllStudentIds)
 
     <button type="submit" class="btn btn-success">Adaugă</button>
 }

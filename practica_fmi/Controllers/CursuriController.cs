@@ -42,6 +42,12 @@ namespace practica_fmi.Controllers
                 Text = o.Nume + " " + o.Prenume,
                 Value = o.ProfesorId.ToString()
             });
+            var allStudentsList = db.Students.ToList();
+            cursViewModel.AllStudentIds = allStudentsList.Select(o => new SelectListItem
+            {
+                Text = o.Nume + " " + o.Prenume,
+                Value = o.StudentId.ToString()
+            });
             if (TempData.ContainsKey("message"))
             {
                 ViewBag.message = TempData["message"].ToString();
@@ -68,14 +74,22 @@ namespace practica_fmi.Controllers
                             selProfs.Add(prof);
                         }
                     }
+                    var allStds = db.Students.ToList();
+                    List<Student> selStudents = new List<Student>();
+                    foreach(var student in allStds)
+                    {
+                        if (newCurs.SelectedStudentsIds.Contains(student.StudentId))
+                        {
+                            selStudents.Add(student);
+                        }
+                    }
+
                     toAdd.Denumire = newCurs.Curs.Denumire;
                     toAdd.Profesors = selProfs;
-                    toAdd.Students = null;
+                    toAdd.Students = selStudents;
                     db.Cursuri.Add(toAdd);
                     db.SaveChanges();
                     TempData["message"] = "Un curs nou a fost adaugat";
-                    ViewBag.profs = GetProfesors();
-                    ViewBag.students = GetStudents();
                     return RedirectToAction("Index");
                 }
                 return View(newCurs);
@@ -98,9 +112,6 @@ namespace practica_fmi.Controllers
         public ActionResult Edit(int id)    
         {
             Curs curs = db.Cursuri.Find(id);
-            ViewBag.profs = GetProfesors();
-            ViewBag.students = GetStudents();
-
             var cursViewModel = new CursViewModel
             {
                 Curs = db.Cursuri.Include("Profesors").Include("Students").First(c => c.CursId == id),
@@ -115,6 +126,12 @@ namespace practica_fmi.Controllers
                 Value = o.ProfesorId.ToString()
             });
 
+            var allStudentsList = db.Students.ToList();
+            cursViewModel.AllStudentIds = allStudentsList.Select(o => new SelectListItem
+            {
+                Text = o.Nume + " " + o.Prenume,
+                Value = o.StudentId.ToString()
+            });
 
             return View(cursViewModel);
         }
@@ -140,9 +157,19 @@ namespace practica_fmi.Controllers
                             selProfs.Add(prof);
                         }
                     }
+                    var allStds = db.Students.ToList();
+                    List<Student> selStudents = new List<Student>();
+                    foreach (var student in allStds)
+                    {
+                        if (reqCurs.SelectedStudentsIds.Contains(student.StudentId))
+                        {
+                            selStudents.Add(student);
+                        }
+                    }
+
                     toChange.Denumire = reqCurs.Curs.Denumire;
                     toChange.Profesors = selProfs;
-                    toChange.Students = reqCurs.Curs.Students;
+                    toChange.Students = selStudents;
 
                     db.Cursuri.Add(toChange);
                     db.SaveChanges();

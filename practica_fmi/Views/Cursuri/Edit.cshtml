@@ -18,7 +18,10 @@
     <label>Adaugă profesor</label>
     @Html.ListBoxFor(c => c.SelectedProfIds, Model.AllProfIds)
     @*@Html.DropDownListFor(c => c.Profesors, new SelectList(ViewBag.profs, "Value", "Text"), "Selectați proful",
-    new { @class = "form-control", @onchange = "javascript:addProfesor(this)", @id="dprof" })*@
+        new { @class = "form-control", @onchange = "javascript:addProfesor(this)", @id="dprof" })*@
+    <br />
+    <label>Adaugă student</label>
+    @Html.ListBoxFor(c => c.SelectedStudentsIds, Model.AllStudentIds)
     <br />
     <button type="submit" class="btn btn-success">Modifică</button>
 }
