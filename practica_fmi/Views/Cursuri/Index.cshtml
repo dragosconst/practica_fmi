@@ -11,6 +11,16 @@
     {
         <div class="panel panel-default">
             <p>@curs.Denumire </p>
+            <p><b>Profesori:</b></p>
+            @foreach(practica_fmi.Models.Profesor prof in curs.Profesors)
+            {
+                <p>@prof.Nume  @prof.Prenume</p>
+            }
+            <p><b>Studenți:</b></p>
+            @foreach(practica_fmi.Models.Student student in curs.Students)
+            {
+                <p>@student.Nume  @student.Prenume</p>
+            }
             <br />
             <div class="panel-footer">
                 <a href="/Cursuri/Edit/@curs.CursId" class="btn btn-primary pull-left">Editează</a>

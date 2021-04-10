@@ -12,14 +12,15 @@
     <br />
     @Html.Label("Denumire", "Denumire curs")
     @Html.EditorFor(c => c.Curs.Denumire)
-    @Html.ValidationMessage("Denumire", null, new { @class = "text-danger" })
+    @Html.ValidationMessageFor(c => c.Curs.Denumire, null, new { @class = "text-danger" })
     <br />
     <label>Adaugă profesor</label>
     @Html.ListBoxFor(c => c.SelectedProfIds, Model.AllProfIds)
+    @Html.ValidationMessageFor(c => c.SelectedProfIds, null, new { @class = "text-danger" })
     <br />
     <label>Adaugă student</label>
     @Html.ListBoxFor(c => c.SelectedStudentsIds, Model.AllStudentIds)
-
+    @Html.ValidationMessageFor(c => c.SelectedStudentsIds, null, new { @class = "text-danger" })
     <button type="submit" class="btn btn-success">Adaugă</button>
 }
 

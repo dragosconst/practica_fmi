@@ -20,10 +20,7 @@ namespace practica_fmi.Models
 
         [Required(ErrorMessage = "Denumirea e obligatorie")]
         public string Denumire { get; set; }
-
-        public ICollection<int> ProfesorsId { get; set; }
-        public ICollection<int> StudentsId { get; set; }
-
+        
         public virtual ICollection<Profesor> Profesors { get; set; }
         public virtual ICollection<Student> Students { get; set; }
     }

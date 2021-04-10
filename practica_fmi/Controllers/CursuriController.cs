@@ -17,7 +17,8 @@ namespace practica_fmi.Controllers
         public ActionResult Index()
         {
             var curses = (from curs in db.Cursuri
-                         select curs).AsQueryable();
+                          orderby curs.Denumire
+                          select curs).AsQueryable();
 
             if (TempData.ContainsKey("message"))
             {
@@ -64,7 +65,6 @@ namespace practica_fmi.Controllers
                 if(ModelState.IsValid)
                 {
                     Curs toAdd = new Curs();
-
                     var allProfs = db.Profesors.ToList();
                     List<Profesor> selProfs = new List<Profesor>();
                     foreach (var prof in allProfs)
@@ -92,7 +92,30 @@ namespace practica_fmi.Controllers
                     TempData["message"] = "Un curs nou a fost adaugat";
                     return RedirectToAction("Index");
                 }
-                return View(newCurs);
+                System.Diagnostics.Debug.WriteLine("not valid");
+                CursViewModel _newCurs = new CursViewModel();
+                _newCurs.AllProfIds = newCurs.AllProfIds;
+                _newCurs.AllStudentIds = newCurs.AllStudentIds;
+                _newCurs.Curs = newCurs.Curs;
+                if (_newCurs.AllProfIds == null)
+                {
+                    var allProfsList = db.Profesors.ToList();
+                    _newCurs.AllProfIds = allProfsList.Select(o => new SelectListItem
+                    {
+                        Text = o.Nume + " " + o.Prenume,
+                        Value = o.ProfesorId.ToString()
+                    });
+                }
+                if (_newCurs.AllStudentIds == null)
+                {
+                    var allStudentsList = db.Students.ToList();
+                    _newCurs.AllStudentIds = allStudentsList.Select(o => new SelectListItem
+                    {
+                        Text = o.Nume + " " + o.Prenume,
+                        Value = o.StudentId.ToString()
+                    });
+                }
+                return View(_newCurs);
             }
             catch (DbEntityValidationException ex)
             {
@@ -178,7 +201,30 @@ namespace practica_fmi.Controllers
                 }
                 else
                 {
-                    return View(reqCurs);
+                    CursViewModel _reqCurs = new CursViewModel();
+                    _reqCurs.AllProfIds = reqCurs.AllProfIds;
+                    _reqCurs.AllStudentIds = reqCurs.AllStudentIds;
+                    _reqCurs.Curs = reqCurs.Curs;
+                    if (_reqCurs.AllProfIds == null)
+                    {
+                        var allProfsList = db.Profesors.ToList();
+                        _reqCurs.AllProfIds = allProfsList.Select(o => new SelectListItem
+                        {
+                            Text = o.Nume + " " + o.Prenume,
+                            Value = o.ProfesorId.ToString()
+                        });
+                    }
+                    if (_reqCurs.AllStudentIds == null)
+                    {
+                        var allStudentsList = db.Students.ToList();
+                        _reqCurs.AllStudentIds = allStudentsList.Select(o => new SelectListItem
+                        {
+                            Text = o.Nume + " " + o.Prenume,
+                            Value = o.StudentId.ToString()
+                        });
+                    }
+
+                    return View(_reqCurs);
                 }
             }
             catch(DbEntityValidationException ex)

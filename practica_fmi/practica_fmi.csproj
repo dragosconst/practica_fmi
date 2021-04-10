@@ -185,9 +185,11 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Curs.cs" />
     <Compile Include="Models\CursViewModel.cs" />
+    <Compile Include="Models\FileModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Profesor.cs" />
+    <Compile Include="Models\Sectiune.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
