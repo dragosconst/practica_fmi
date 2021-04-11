@@ -1,0 +1,41 @@
+﻿@model practica_fmi.Models.Curs
+@{
+    ViewBag.Title = "Show";
+}
+
+<h2>Cursul @Model.Denumire</h2>
+
+<div class="panel panel-default">
+    <p>@Model.Denumire </p>
+    <p><b>Profesori:</b></p>
+    @foreach (practica_fmi.Models.Profesor prof in Model.Profesors)
+    {
+        <p>@prof.Nume  @prof.Prenume</p>
+    }
+    <p><b>Studenți:</b></p>
+    @foreach (practica_fmi.Models.Student student in Model.Students)
+    {
+        <p>@student.Nume  @student.Prenume</p>
+    }
+
+    @foreach (practica_fmi.Models.Sectiune sectiune in Model.Sectiuni)
+    {
+        <h1>@sectiune.Denumire</h1>
+        <hr />
+        <p>@sectiune.Descriere</p>
+
+        <br />
+    }
+    <a href="/Cursuri/AddSectiune/@Model.CursId" class="btn btn-primary pull-left">Adaugă secțiune</a>
+
+
+    <br />
+    <div class="panel-footer">
+        <a href="/Cursuri/Edit/@Model.CursId" class="btn btn-primary pull-left">Editează</a>
+        <form method="post" action="/Cursuri/Delete/@Model.CursId">
+            @Html.HttpMethodOverride(HttpVerbs.Delete)
+            <button class="btn btn-danger pull-right" type="submit">Șterge</button>
+        </form>
+        <div class="clearfix"></div>
+    </div>
+</div>

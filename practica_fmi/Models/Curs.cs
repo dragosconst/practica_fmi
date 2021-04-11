@@ -23,5 +23,6 @@ namespace practica_fmi.Models
         
         public virtual ICollection<Profesor> Profesors { get; set; }
         public virtual ICollection<Student> Students { get; set; }
+        public virtual ICollection<Sectiune> Sectiuni { get; set; }
     }
 }

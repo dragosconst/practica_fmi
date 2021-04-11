@@ -6,7 +6,6 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -23,6 +22,7 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Profesori", "Index", "Profesors")</li>
                     <li>@Html.ActionLink("Studenți", "Index", "Students")</li>
+                    <li>@Html.ActionLink("Cursuri", "Index", "Cursuri")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -39,5 +39,8 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    <script language="javascript" type="text/javascript" src="~/Scripts/summernote_stuff.js"></script>
 </body>
 </html>

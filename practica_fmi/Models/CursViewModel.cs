@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace practica_fmi.Models
 {
+    // ca sa pot face validation si la profesori si studenti
     [AttributeUsage(AttributeTargets.Property)]
     public sealed class RequiredListAttribute : RequiredAttribute
     {

@@ -24,6 +24,7 @@
             <br />
             <div class="panel-footer">
                 <a href="/Cursuri/Edit/@curs.CursId" class="btn btn-primary pull-left">Editează</a>
+                <a href="/Cursuri/Show/@curs.CursId" class="btn btn-info pull-left">Deschide</a>
                 <form method="post" action="/Cursuri/Delete/@curs.CursId">
                     @Html.HttpMethodOverride(HttpVerbs.Delete)
                     <button class="btn btn-danger pull-right" type="submit">Șterge</button>

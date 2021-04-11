@@ -1,10 +1,12 @@
 ﻿using practica_fmi.Models;
 using System;
+using Microsoft.Security.Application;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+
 
 namespace practica_fmi.Controllers
 {
@@ -26,6 +28,66 @@ namespace practica_fmi.Controllers
             }
             ViewBag.curs = curses;
             return View();
+        }
+
+        // toata lumea are voie sa vizualizeze un curs
+        // TODO: de implementat sa-l vada doar studentii si profii inscrisi
+        public ActionResult Show(int id)
+        {
+            Curs curs = db.Cursuri.Find(id);
+            if (TempData.ContainsKey("message"))
+            {
+                ViewBag.message = TempData["message"];
+            }
+            return View(curs);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult AddSectiune(int id)
+        {
+            Curs curs = db.Cursuri.Find(id);
+            Sectiune sectiune = new Sectiune();
+            if (TempData.ContainsKey("message"))
+            {
+                ViewBag.message = TempData["message"];
+            }
+            ViewBag.curs = curs;
+            return View(sectiune);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public ActionResult AddSectiune(int id, Sectiune newSec)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    Curs curs = db.Cursuri.Find(id);
+                    newSec.Descriere = Sanitizer.GetSafeHtmlFragment(newSec.Descriere);
+                    db.Sectiuni.Add(newSec);
+                    curs.Sectiuni.Add(newSec);
+                    newSec.Curs = curs;
+                    TempData["message"] = "Secțiune adăugată";
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                ViewBag.curs = db.Cursuri.Find(id);
+                return View(newSec);
+            }
+            catch(DbEntityValidationException ex)
+            {
+                foreach (var entityValidationErrors in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationErrors.ValidationErrors)
+                    {
+                        Response.Write("Property: " + validationError.PropertyName + " Error: " + validationError.ErrorMessage);
+                    }
+                }
+                TempData["message"] = "Eroare la adăugarea secțiunii";
+                ViewBag.curs = db.Cursuri.Find(id);
+                return View(newSec);
+            }
         }
 
         [Authorize(Roles = "Admin")]
@@ -115,6 +177,10 @@ namespace practica_fmi.Controllers
                         Value = o.StudentId.ToString()
                     });
                 }
+
+                // toata bataia asta de cap e necesara pt ca for some reason AllProfIds (si la studenti la fel)
+                // e facut implicit null daca nu e valid modelstate, si asta crapa tot programu cu vechiul
+                // reqCurs
                 return View(_newCurs);
             }
             catch (DbEntityValidationException ex)
@@ -224,6 +290,9 @@ namespace practica_fmi.Controllers
                         });
                     }
 
+                    // toata bataia asta de cap e necesara pt ca for some reason AllProfIds (si la studenti la fel)
+                    // e facut implicit null daca nu e valid modelstate, si asta crapa tot programu cu vechiul
+                    // reqCurs
                     return View(_reqCurs);
                 }
             }
