@@ -21,12 +21,19 @@
     @foreach (practica_fmi.Models.Sectiune sectiune in Model.Sectiuni)
     {
         <h1>@sectiune.Denumire</h1>
+        <a href="/Sectiuni/Edit/@sectiune.SectiuneId" class="glyphicon-pencil btn btn-primary pull-left"></a> 
+        <form method="post" action="/Sectiuni/Delete/@sectiune.SectiuneId">
+            @Html.HttpMethodOverride(HttpVerbs.Delete)
+            <button type="submit" class="glyphicon glyphicon-remove-sign btn btn-danger pull-right"></button>
+        </form>
         <hr />
-        <p>@sectiune.Descriere</p>
+        <p>
+            @Html.Raw(sectiune.Descriere)
+        </p>
 
         <br />
     }
-    <a href="/Cursuri/AddSectiune/@Model.CursId" class="btn btn-primary pull-left">Adaugă secțiune</a>
+    <a href="/Sectiuni/New/@Model.CursId" class="btn btn-primary pull-left">Adaugă secțiune</a>
 
 
     <br />

@@ -18,6 +18,7 @@ namespace practica_fmi.Models
         [Required(ErrorMessage = "Secțiunea are nevoie de o denumire")]
         public string Denumire { get; set; }
 
+        [DataType(DataType.MultilineText)]
         public string Descriere { get; set; }
 
         public virtual Curs Curs { get; set; }

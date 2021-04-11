@@ -21,12 +21,14 @@
     {
         <h1>@sectiune.Denumire</h1>
         <hr />
-        <p>@sectiune.Descriere</p>
+        <p>
+            @Html.Raw(sectiune.Descriere)
+        </p>
 
         <br />
     }
 
-    @using (Html.BeginForm("AddSectiune", "Cursuri", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("New", "Sectiuni", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         @Html.LabelFor(s => s.Denumire, "Denumire secțiune")
         @Html.EditorFor(s => s.Denumire)

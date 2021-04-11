@@ -1,0 +1,53 @@
+﻿@model practica_fmi.Models.Sectiune
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Cursul @ViewBag.curs.Denumire</h2>
+<div class="panel panel-default">
+    <p>@ViewBag.curs.Denumire </p>
+    <p><b>Profesori:</b></p>
+    @foreach (practica_fmi.Models.Profesor prof in ViewBag.curs.Profesors)
+    {
+        <p>@prof.Nume  @prof.Prenume</p>
+    }
+    <p><b>Studenți:</b></p>
+    @foreach (practica_fmi.Models.Student student in ViewBag.curs.Students)
+    {
+        <p>@student.Nume  @student.Prenume</p>
+    }
+
+    @foreach (practica_fmi.Models.Sectiune sectiune in ViewBag.curs.Sectiuni)
+    {
+        if (sectiune.SectiuneId != Model.SectiuneId)
+        {
+            <h1>@sectiune.Denumire</h1>
+            <hr />
+            <p>
+                @Html.Raw(sectiune.Descriere)
+            </p>
+        }
+        else
+        {
+            <div>
+            @using (Html.BeginForm("Edit", "Sectiuni", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.HttpMethodOverride(HttpVerbs.Put)
+                @Html.LabelFor(s => s.Denumire, "Denumire secțiune")
+                @Html.EditorFor(s => s.Denumire)
+                @Html.ValidationMessageFor(s => s.Denumire, null, new { @class = "text-danger" })
+                <br />
+                @Html.LabelFor(s => s.Descriere, "Descriere secțiune")
+                @Html.EditorFor(s => s.Descriere, new { htmlAttributes = new { @class = "form-control summernote" } })
+
+                <br />
+                <button type="submit" class="btn btn-primary pull-left">Modifică</button>
+            }
+            </div>
+            <hr />
+        }
+
+        <br />
+    }
+</div>

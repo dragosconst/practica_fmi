@@ -1,10 +1,8 @@
-﻿using practica_fmi.Models;
-using System;
-using Microsoft.Security.Application;
+﻿using Microsoft.Security.Application;
+using practica_fmi.Models;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 
@@ -40,54 +38,6 @@ namespace practica_fmi.Controllers
                 ViewBag.message = TempData["message"];
             }
             return View(curs);
-        }
-
-        [Authorize(Roles = "Admin")]
-        public ActionResult AddSectiune(int id)
-        {
-            Curs curs = db.Cursuri.Find(id);
-            Sectiune sectiune = new Sectiune();
-            if (TempData.ContainsKey("message"))
-            {
-                ViewBag.message = TempData["message"];
-            }
-            ViewBag.curs = curs;
-            return View(sectiune);
-        }
-
-        [HttpPost]
-        [Authorize(Roles = "Admin")]
-        public ActionResult AddSectiune(int id, Sectiune newSec)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    Curs curs = db.Cursuri.Find(id);
-                    newSec.Descriere = Sanitizer.GetSafeHtmlFragment(newSec.Descriere);
-                    db.Sectiuni.Add(newSec);
-                    curs.Sectiuni.Add(newSec);
-                    newSec.Curs = curs;
-                    TempData["message"] = "Secțiune adăugată";
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
-                }
-                ViewBag.curs = db.Cursuri.Find(id);
-                return View(newSec);
-            }
-            catch(DbEntityValidationException ex)
-            {
-                foreach (var entityValidationErrors in ex.EntityValidationErrors)
-                {
-                    foreach (var validationError in entityValidationErrors.ValidationErrors)
-                    {
-                        Response.Write("Property: " + validationError.PropertyName + " Error: " + validationError.ErrorMessage);
-                    }
-                }
-                TempData["message"] = "Eroare la adăugarea secțiunii";
-                ViewBag.curs = db.Cursuri.Find(id);
-                return View(newSec);
-            }
         }
 
         [Authorize(Roles = "Admin")]
