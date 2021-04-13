@@ -36,7 +36,9 @@
         foreach(practica_fmi.Models.FileModel fileModel in sectiune.FileModels)
         {
             <p>@fileModel.FileName, uploadat de @fileModel.ProfNume @fileModel.ProfPrenume</p>
-            <a href="@fileModel.FilePath">download</a> <!--does not work-->
+            <form method="post" action="/FileModels/Download/@fileModel.FileId">
+                <button type="submit" class="btn btn-primary">download</button>
+            </form>
             <form method="post" action="/FileModels/Delete/@fileModel.FileId">
                 @Html.HttpMethodOverride(HttpVerbs.Delete)
                 <button type="submit" class="btn btn-danger glyphicon glyphicon-remove-sign"></button>

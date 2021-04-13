@@ -54,5 +54,13 @@ namespace practica_fmi.Controllers
             db.SaveChanges();
             return RedirectToAction("Show", "Cursuri", new { id = sectiune.Curs.CursId });
         }
+
+        [Authorize(Roles = "Admin,Profesor,Student")]
+        public FileResult Download(int id)
+        {
+            FileModel fileModel = db.FileModels.Find(id);
+            byte[] fileBytes = System.IO.File.ReadAllBytes(fileModel.FilePath);
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileModel.FileName);
+        }
     }
 }
