@@ -18,6 +18,7 @@ namespace practica_fmi.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
+            SetAccesRights();
             var students = (from student in db.Students
                          select student).AsQueryable();
 
@@ -32,6 +33,7 @@ namespace practica_fmi.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult New()
         {
+            SetAccesRights();
             Student student = new Student();
             if (TempData.ContainsKey("message"))
             {
@@ -88,6 +90,7 @@ namespace practica_fmi.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id)
         {
+            SetAccesRights();
             Student student = (from std in db.Students
                                  where std.StudentId == id
                                  select std).First();
@@ -151,6 +154,15 @@ namespace practica_fmi.Controllers
             db.SaveChanges();
             TempData["message"] = "Studentul a fost șters";
             return RedirectToAction("Index");
+        }
+
+
+        // Metoda ca sa gestionez drepturile de acces intre controllere
+        private void SetAccesRights()
+        {
+            // deoarece CRUD pe studenti poate face doar adminul, e imposibil ca metoda sa fie
+            // apelata de altcineva decat de un admins
+            ViewBag.admin = true;
         }
     }
 }

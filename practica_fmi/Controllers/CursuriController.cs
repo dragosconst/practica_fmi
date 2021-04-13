@@ -1,7 +1,9 @@
-﻿using Microsoft.Security.Application;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.Security.Application;
 using practica_fmi.Models;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
+using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -16,6 +18,7 @@ namespace practica_fmi.Controllers
         [Authorize(Roles = "Admin, Student, Profesor")]
         public ActionResult Index()
         {
+            SetAccesRights(null);
             var curses = (from curs in db.Cursuri
                           orderby curs.Denumire
                           select curs).AsQueryable();
@@ -29,10 +32,11 @@ namespace practica_fmi.Controllers
         }
 
         // toata lumea are voie sa vizualizeze un curs
-        // TODO: de implementat sa-l vada doar studentii si profii inscrisi
+        [Authorize(Roles = "Admin, Student, Profesor")]
         public ActionResult Show(int id)
         {
             Curs curs = db.Cursuri.Find(id);
+            SetAccesRights(curs);
             if (TempData.ContainsKey("message"))
             {
                 ViewBag.message = TempData["message"];
@@ -184,8 +188,7 @@ namespace practica_fmi.Controllers
                 if(ModelState.IsValid)
                 {
                     Curs toChange = db.Cursuri.Find(id);
-                    db.Cursuri.Remove(toChange); // perhaps not the greatest idea
-                    db.SaveChanges();
+                    EmptyProfsAndStudents(toChange);
 
                     var allProfs = db.Profesors.ToList();
                     List<Profesor> selProfs = new List<Profesor>();
@@ -209,8 +212,7 @@ namespace practica_fmi.Controllers
                     toChange.Denumire = reqCurs.Curs.Denumire;
                     toChange.Profesors = selProfs;
                     toChange.Students = selStudents;
-
-                    db.Cursuri.Add(toChange);
+                    
                     db.SaveChanges();
                     TempData["message"] = "Cursul a fost modificat";
                     return RedirectToAction("Index");
@@ -265,6 +267,32 @@ namespace practica_fmi.Controllers
         public ActionResult Delete(int id)
         {
             Curs toDelete = db.Cursuri.Find(id);
+            List<int> sids = new List<int>();
+            foreach (var sect in toDelete.Sectiuni)
+            {
+                sids.Add(sect.SectiuneId);
+            }
+            foreach (int sid in sids)
+            {
+                Sectiune sectiune = db.Sectiuni.Find(sid);
+                List<int> fids = new List<int>();
+                foreach (var fm in sectiune.FileModels)
+                {
+                    fids.Add(fm.FileId);
+                }
+                foreach (int fid in fids)
+                {
+                    // delete from server
+                    FileInfo fileInfo = new FileInfo(db.FileModels.Find(fid).FilePath);
+                    if (fileInfo.Exists)
+                    {
+                        fileInfo.Delete();
+                    }
+
+                    db.FileModels.Remove(db.FileModels.Find(fid));
+                }
+                db.Sectiuni.Remove(sectiune);
+            }
             db.Cursuri.Remove(toDelete);
             TempData["message"] = "Cursul a fost șters";
             db.SaveChanges();
@@ -305,6 +333,66 @@ namespace practica_fmi.Controllers
                 });
             }
             return selectList;
+        }
+
+        // Metoda ca sa gestionez drepturile de acces intre controllere
+        private void SetAccesRights(Curs curs)
+        {
+            /**
+             * Metoda e apelata doar din Index si Show.
+             * In index, curs e null, dar in Show e cursul afisat.
+             * */
+            if(User.IsInRole("Admin"))
+            {
+                ViewBag.admin   = true;
+                ViewBag.prof    = false;
+                ViewBag.student = false;
+            }
+            else if(User.IsInRole("Profesor"))
+            {
+                string uid = User.Identity.GetUserId();
+                Profesor profesor = (from prof in db.Profesors
+                                     where prof.UserId == uid
+                                     select prof).ToList().First(); // e sigur un singur prof in lista
+                if(curs == null || curs.Profesors.Contains(profesor))
+                {
+                    ViewBag.admin = false;
+                    ViewBag.prof = true;
+                    ViewBag.pid = profesor.ProfesorId;
+                    ViewBag.student = false;
+                }
+            }
+            else if (User.IsInRole("Student"))
+            {
+                string uid = User.Identity.GetUserId();
+                Student student = (from std in db.Students
+                                     where std.UserId == uid
+                                     select std).ToList().First(); // e sigur un singur prof in lista
+                if(curs == null || curs.Students.Contains(student))
+                {
+                    ViewBag.admin = false;
+                    ViewBag.prof = false;
+                    ViewBag.student = true;
+                    ViewBag.sid = student.StudentId;
+                }
+            }   
+        }
+
+        // Metoda utility pt editarea cursurilor, ca sa nu bage de doua ori aceiasi profi in baza de date
+        private void EmptyProfsAndStudents(Curs curs)
+        {
+            foreach(Profesor prof in curs.Profesors)
+            {
+                prof.Cursuri.Remove(curs);
+            }
+            curs.Profesors = null;
+
+            foreach(Student student in curs.Students)
+            {
+                student.Cursuri.Remove(curs);
+            }
+            curs.Students = null;
+            db.SaveChanges();
         }
     }
 }

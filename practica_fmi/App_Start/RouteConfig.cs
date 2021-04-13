@@ -16,7 +16,7 @@ namespace practica_fmi
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Cursuri", action = "Index", id = UrlParameter.Optional }
             );
         }
     }
