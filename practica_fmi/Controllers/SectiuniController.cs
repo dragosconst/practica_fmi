@@ -1,4 +1,5 @@
-﻿using Microsoft.Security.Application;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.Security.Application;
 using practica_fmi.Models;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace practica_fmi.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Profesor")]
         public ActionResult New(int id)
         {
             Curs curs = db.Cursuri.Find(id);
@@ -27,7 +28,7 @@ namespace practica_fmi.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Profesor")]
         [ValidateInput(false)]
         public ActionResult New(int id, Sectiune newSec)
         {
@@ -63,7 +64,7 @@ namespace practica_fmi.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Profesor")]
         public ActionResult Edit(int id)
         {
             Sectiune toEdit = db.Sectiuni.Find(id);
@@ -73,7 +74,7 @@ namespace practica_fmi.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Profesor")]
         [ValidateInput(false)]
         public ActionResult Edit(int id, Sectiune reqSect)
         {
@@ -88,7 +89,6 @@ namespace practica_fmi.Controllers
                     return RedirectToAction("Show", "Cursuri", new { id = toModify.Curs.CursId });
                 }
                 ViewBag.curs = db.Cursuri.Find(reqSect.Curs.CursId);
-                System.Diagnostics.Debug.WriteLine("YOOOOOOOOOOOOOOOOOOOOOOOO");
                 return View(reqSect);
             }
             catch (DbEntityValidationException ex)
@@ -106,14 +106,22 @@ namespace practica_fmi.Controllers
         }
 
         [HttpDelete]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Profesor")]
         public ActionResult Delete(int id)
         {
+            //TODO: check sa fie proful okay care da delete
             Sectiune toRemove = db.Sectiuni.Find(id);
             int cursId = toRemove.Curs.CursId;
             db.Sectiuni.Remove(toRemove);
             db.SaveChanges();
             return RedirectToAction("Show", "Cursuri", new { id = cursId });
+        }
+
+        // Metoda ca sa ma asigur ca nu strica alti profi contentul de la alte cursuri
+        [NonAction]
+        private void CheckProf(Sectiune sectiune)
+        {
+
         }
     }
 }

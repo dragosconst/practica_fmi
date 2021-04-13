@@ -3,63 +3,84 @@
     ViewBag.Title = "Show";
 }
 
-<h2>Cursul @Model.Denumire</h2>
+@if (ViewBag.faulty == true)
+{
+    <p>Cum ai ajuns aici?...</p>
+}
+else
+{
+    <h2>Cursul @Model.Denumire</h2>
 
-<div class="panel panel-default">
-    <p>@Model.Denumire </p>
-    <p><b>Profesori:</b></p>
-    @foreach (practica_fmi.Models.Profesor prof in Model.Profesors)
-    {
-        <p>@prof.Nume  @prof.Prenume</p>
-    }
-    <p><b>Studenți:</b></p>
-    @foreach (practica_fmi.Models.Student student in Model.Students)
-    {
-        <p>@student.Nume  @student.Prenume</p>
-    }
+    <div class="panel panel-default">
+        <p>@Model.Denumire </p>
+        <p><b>Profesori:</b></p>
+        @foreach (practica_fmi.Models.Profesor prof in Model.Profesors)
+        {
+            <p>@prof.Nume  @prof.Prenume</p>
+        }
+        <p><b>Studenți:</b></p>
+        @foreach (practica_fmi.Models.Student student in Model.Students)
+        {
+            <p>@student.Nume  @student.Prenume</p>
+        }
 
-    @foreach (practica_fmi.Models.Sectiune sectiune in Model.Sectiuni)
-    {
-        <h1>@sectiune.Denumire</h1>
-        <a href="/Sectiuni/Edit/@sectiune.SectiuneId" class="glyphicon-pencil btn btn-primary pull-left"></a> 
-        <form method="post" action="/Sectiuni/Delete/@sectiune.SectiuneId">
-            @Html.HttpMethodOverride(HttpVerbs.Delete)
-            <button type="submit" class="glyphicon glyphicon-remove-sign btn btn-danger pull-right"></button>
-        </form>
-        <hr />
-        <p>
-            @Html.Raw(sectiune.Descriere)
-        </p>
+        @foreach (practica_fmi.Models.Sectiune sectiune in Model.Sectiuni)
+        {
+            <h1>@sectiune.Denumire</h1>
+            if (ViewBag.admin == true || ViewBag.prof == true)
+            {
+                <a href="/Sectiuni/Edit/@sectiune.SectiuneId" class="glyphicon-pencil btn btn-primary pull-left"></a>
+                <form method="post" action="/Sectiuni/Delete/@sectiune.SectiuneId">
+                    @Html.HttpMethodOverride(HttpVerbs.Delete)
+                    <button type="submit" class="glyphicon glyphicon-remove-sign btn btn-danger pull-right"></button>
+                </form>
+                <hr />
+            }
+            <p>
+                @Html.Raw(sectiune.Descriere)
+            </p>
+
+            <br />
+
+            foreach (practica_fmi.Models.FileModel fileModel in sectiune.FileModels)
+            {
+                <p>@fileModel.FileName, uploadat de @fileModel.ProfNume @fileModel.ProfPrenume</p>
+                <form method="post" action="/FileModels/Download/@fileModel.FileId">
+                    <button type="submit" class="btn btn-primary">download</button>
+                </form>
+                if (ViewBag.admin == true || ViewBag.prof == true)
+                {
+                    <form method="post" action="/FileModels/Delete/@fileModel.FileId">
+                        @Html.HttpMethodOverride(HttpVerbs.Delete)
+                        <button type="submit" class="btn btn-danger glyphicon glyphicon-remove-sign"></button>
+                    </form>
+                }
+            }
+            if (ViewBag.admin == true || ViewBag.prof == true)
+            {
+                <form method="post" action="/FileModels/AddFile/@sectiune.SectiuneId" enctype="multipart/form-data">
+                    <label for="file"></label>
+                    <input id="file" type="file" name="file" />
+                    <button type="submit" class="btn btn-success glyphicon glyphicon-ok-sign"></button>
+                </form>
+            }
+        }
+        @if (ViewBag.admin == true || ViewBag.prof == true)
+        {
+            <a href="/Sectiuni/New/@Model.CursId" class="btn btn-primary pull-left">Adaugă secțiune</a>
+        }
 
         <br />
-
-        foreach(practica_fmi.Models.FileModel fileModel in sectiune.FileModels)
-        {
-            <p>@fileModel.FileName, uploadat de @fileModel.ProfNume @fileModel.ProfPrenume</p>
-            <form method="post" action="/FileModels/Download/@fileModel.FileId">
-                <button type="submit" class="btn btn-primary">download</button>
-            </form>
-            <form method="post" action="/FileModels/Delete/@fileModel.FileId">
-                @Html.HttpMethodOverride(HttpVerbs.Delete)
-                <button type="submit" class="btn btn-danger glyphicon glyphicon-remove-sign"></button>
-            </form>
-        }
-        <form method="post" action="/FileModels/AddFile/@sectiune.SectiuneId" enctype="multipart/form-data">
-                <label for="file"></label>
-                <input id="file" type="file" name="file" />
-                <button type="submit" class="btn btn-success glyphicon glyphicon-ok-sign"></button>
-        </form>
-    }
-    <a href="/Sectiuni/New/@Model.CursId" class="btn btn-primary pull-left">Adaugă secțiune</a>
-
-
-    <br />
-    <div class="panel-footer">
-        <a href="/Cursuri/Edit/@Model.CursId" class="btn btn-primary pull-left">Editează</a>
-        <form method="post" action="/Cursuri/Delete/@Model.CursId">
-            @Html.HttpMethodOverride(HttpVerbs.Delete)
-            <button class="btn btn-danger pull-right" type="submit">Șterge</button>
-        </form>
-        <div class="clearfix"></div>
+        <div class="panel-footer">
+            @if (ViewBag.admin == true)
+            {
+                <a href="/Cursuri/Edit/@Model.CursId" class="btn btn-primary pull-left">Editează</a>
+                <form method="post" action="/Cursuri/Delete/@Model.CursId">
+                    @Html.HttpMethodOverride(HttpVerbs.Delete)
+                    <button class="btn btn-danger pull-right" type="submit">Șterge</button>
+                </form>
+            }
+            <div class="clearfix"></div>
+        </div>
     </div>
-</div>
+}

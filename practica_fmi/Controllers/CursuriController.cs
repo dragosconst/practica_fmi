@@ -299,43 +299,8 @@ namespace practica_fmi.Controllers
             return RedirectToAction("Index");
         }
 
-        [NonAction]
-        private IEnumerable<SelectListItem> GetProfesors()
-        {
-            var profesori = (from prof in db.Profesors
-                             select prof).AsQueryable().ToList();
-            var selectList = new List<SelectListItem>();
-
-            foreach(var prof in profesori)
-            {
-                selectList.Add(new SelectListItem
-                {
-                    Text = prof.Nume.ToString() + " " + prof.Prenume.ToString(),
-                    Value = prof.ProfesorId.ToString()
-                });
-            }
-            return selectList;
-        }
-
-        [NonAction]
-        private ICollection<SelectListItem> GetStudents()
-        {
-            var students = (from student in db.Students
-                            select student).AsQueryable().ToList();
-            var selectList = new List<SelectListItem>();
-
-            foreach (var std in students)
-            {
-                selectList.Add(new SelectListItem
-                {
-                    Text = std.Nume.ToString() + " " + std.Prenume.ToString(),
-                    Value = std.StudentId.ToString()
-                });
-            }
-            return selectList;
-        }
-
         // Metoda ca sa gestionez drepturile de acces intre controllere
+        [NonAction]
         private void SetAccesRights(Curs curs)
         {
             /**
@@ -361,6 +326,10 @@ namespace practica_fmi.Controllers
                     ViewBag.pid = profesor.ProfesorId;
                     ViewBag.student = false;
                 }
+                else
+                {
+                    ViewBag.faulty = true;
+                }
             }
             else if (User.IsInRole("Student"))
             {
@@ -375,10 +344,15 @@ namespace practica_fmi.Controllers
                     ViewBag.student = true;
                     ViewBag.sid = student.StudentId;
                 }
+                else
+                {
+                    ViewBag.faulty = true;
+                }
             }   
         }
 
         // Metoda utility pt editarea cursurilor, ca sa nu bage de doua ori aceiasi profi in baza de date
+        [NonAction]
         private void EmptyProfsAndStudents(Curs curs)
         {
             foreach(Profesor prof in curs.Profesors)

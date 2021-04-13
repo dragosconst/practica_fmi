@@ -1,4 +1,5 @@
-﻿using practica_fmi.Models;
+﻿using Microsoft.AspNet.Identity;
+using practica_fmi.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,7 +15,7 @@ namespace practica_fmi.Controllers
 
         // id = id-ul sectiunii in care il bag
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Profesor")]
         public ActionResult AddFile(int id, HttpPostedFileBase file)
         {
             FileModel fm = new FileModel();
@@ -23,11 +24,26 @@ namespace practica_fmi.Controllers
                 return RedirectToAction("Show", "Cursuri", new { id = sectiune.Curs.CursId });
             fm.FileName = file.FileName;
             // momentan ii dam voie sa dea upload la ce vrea
-            string uploadFolder = Server.MapPath("~/Files/");
+            if (!System.IO.Directory.Exists(Server.MapPath("~/Files/" + User.Identity.GetUserId() + "/")))
+                System.IO.Directory.CreateDirectory(Server.MapPath("~/Files/" + User.Identity.GetUserId() + "/"));
+            string uploadFolder = Server.MapPath("~/Files/" + User.Identity.GetUserId() + "/");
             fm.FilePath = uploadFolder + fm.FileName;
             file.SaveAs(fm.FilePath); // save pe server
             fm.Date = DateTime.Now;
-            fm.ProfNume = fm.ProfPrenume = "Admin"; // momentan
+
+            if(User.IsInRole("Admin"))
+            {
+                fm.ProfNume = fm.ProfPrenume = "Admin";
+            }
+            else
+            {
+                string uid = User.Identity.GetUserId();
+                Profesor profesor = (from prof in db.Profesors
+                                     where prof.UserId == uid
+                                     select prof).ToList().First();
+                fm.ProfNume = profesor.Nume;
+                fm.ProfPrenume = profesor.Prenume;
+            }
 
             fm.Sectiune = sectiune;
             sectiune.FileModels.Add(fm);
@@ -36,7 +52,7 @@ namespace practica_fmi.Controllers
         }
 
         [HttpDelete]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Profesor")]
         public ActionResult Delete(int id)
         {
             FileModel fileModel = db.FileModels.Find(id);
