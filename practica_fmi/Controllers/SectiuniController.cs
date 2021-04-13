@@ -4,6 +4,7 @@ using practica_fmi.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -112,6 +113,22 @@ namespace practica_fmi.Controllers
             //TODO: check sa fie proful okay care da delete
             Sectiune toRemove = db.Sectiuni.Find(id);
             int cursId = toRemove.Curs.CursId;
+            List<int> fids = new List<int>();
+            foreach (var fm in toRemove.FileModels)
+            {
+                fids.Add(fm.FileId);
+            }
+            foreach (int fid in fids)
+            {
+                // delete from server
+                FileInfo fileInfo = new FileInfo(db.FileModels.Find(fid).FilePath);
+                if (fileInfo.Exists)
+                {
+                    fileInfo.Delete();
+                }
+
+                db.FileModels.Remove(db.FileModels.Find(fid));
+            }
             db.Sectiuni.Remove(toRemove);
             db.SaveChanges();
             return RedirectToAction("Show", "Cursuri", new { id = cursId });
