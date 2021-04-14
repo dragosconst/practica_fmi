@@ -31,8 +31,9 @@ namespace practica_fmi.Controllers
             file.SaveAs(fm.FilePath); // save pe server
             fm.Date = DateTime.Now;
             fm.FileExtension = Path.GetExtension(file.FileName);
-            if (fm.FileExtension != "pdf" && fm.FileExtension != "ppx" && fm.FileExtension != "txt" && fm.FileExtension != "zip")
-                fm.FileExtension = "other";
+            fm.FileExtension = fm.FileExtension == ".rar" ? ".zip" : fm.FileExtension; // turn rar in zip
+            if (fm.FileExtension != ".pdf" && fm.FileExtension != ".ppx" && fm.FileExtension != ".txt" && fm.FileExtension != ".zip")
+                fm.FileExtension = ".other";
 
             if(User.IsInRole("Admin"))
             {

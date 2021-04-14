@@ -48,7 +48,7 @@ else
                 foreach (practica_fmi.Models.FileModel fileModel in sectiune.FileModels)
                 {
                     <picture>
-                        <img class ="file-image" src="@("/FileImages/" + fileModel.FileExtension + ".png")" />
+                        <img class="file-image" src="@("/FileImages/" + fileModel.FileExtension + ".png")" />
                     </picture>
                     <div style="display: inline-block;">@fileModel.FileName, uploadat de @fileModel.ProfNume @fileModel.ProfPrenume</div>
                     <br />
@@ -62,8 +62,8 @@ else
                             @Html.HttpMethodOverride(HttpVerbs.Delete)
                             <button type="submit" class="btn btn-danger delete-file glyphicon glyphicon-remove-sign pull-left"></button>
                         </form>
-                        <br />
                     }
+                    <br />
                     <br />
                 }
                 if (ViewBag.admin == true || ViewBag.prof == true)
