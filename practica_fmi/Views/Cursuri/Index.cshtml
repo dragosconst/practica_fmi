@@ -10,6 +10,54 @@
     ViewBag.Title = "Index";
 }
 
+@section LeftMenu
+{
+<div class="container pull-left fancy-panel width-15 text-maginify">
+    <div class="row fancy-cell">
+        <div class="col-sm">
+            <div class="glyphicon glyphicon-home"></div>
+            <a href="/Cursuri/">Panou principal</a>
+        </div>
+    </div>
+    <div class="row fancy-cell">
+        <div class="col-sm">
+            Cursurile mele
+        </div>
+    </div>
+    @foreach (practica_fmi.Models.Curs curs in ViewBag.curs)
+    {
+        ViewBag.showCourse = false;
+        if (ViewBag.prof)
+        {
+            if (curs.Profesors.Any(p => p.ProfesorId == ViewBag.pid))
+            {
+                ViewBag.showCourse = true;
+            }
+        }
+        if (ViewBag.student)
+        {
+            if (curs.Students.Any(s => s.StudentId == ViewBag.sid))
+            {
+                ViewBag.showCourse = true;
+            }
+        }
+        if (ViewBag.admin)
+        {
+            ViewBag.showCourse = true;
+        }
+        if (ViewBag.showCourse)
+        {
+            <div class="row fancy-cell">
+                <div class="col-sm">
+                    <div class="glyphicon glyphicon-book"></div>
+                    <a href="/Cursuri/Show/@curs.CursId">@curs.Denumire</a>
+                </div>
+            </div>
+        }
+    }
+</div>
+}
+
 <h2>@ViewBag.Message</h2>
 <h2>Toate cursurile</h2>
 

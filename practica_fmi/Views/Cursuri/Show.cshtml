@@ -28,7 +28,7 @@ else
             @foreach (practica_fmi.Models.Sectiune sectiune in Model.Sectiuni)
             {
                 <h1>@sectiune.Denumire</h1>
-                <hr />
+                <hr style="border: none; height: 2px; background-color: lightgray;"/>
                 if (ViewBag.admin == true || ViewBag.prof == true)
                 {
                     <a href="/Sectiuni/Edit/@sectiune.SectiuneId" class="glyphicon-pencil btn btn-primary pull-left"></a>
