@@ -19,6 +19,8 @@ namespace practica_fmi.Models
 
         public string FilePath { get; set; }
 
+        public string FileExtension { get; set; }
+
         public DateTime Date { get; set; }
 
         public virtual Sectiune Sectiune { get; set; }

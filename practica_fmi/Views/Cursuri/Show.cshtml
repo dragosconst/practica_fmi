@@ -47,7 +47,12 @@ else
 
                 foreach (practica_fmi.Models.FileModel fileModel in sectiune.FileModels)
                 {
-                    <p>@fileModel.FileName, uploadat de @fileModel.ProfNume @fileModel.ProfPrenume</p>
+                    <picture>
+                        <img class ="file-image" src="@("/FileImages/" + fileModel.FileExtension + ".png")" />
+                    </picture>
+                    <div style="display: inline-block;">@fileModel.FileName, uploadat de @fileModel.ProfNume @fileModel.ProfPrenume</div>
+                    <br />
+                    <br />
                     <form method="post" action="/FileModels/Download/@fileModel.FileId">
                         <button type="submit" class="btn btn-primary pull-left">download</button>
                     </form>
@@ -59,6 +64,7 @@ else
                         </form>
                         <br />
                     }
+                    <br />
                 }
                 if (ViewBag.admin == true || ViewBag.prof == true)
                 {

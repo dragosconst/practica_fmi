@@ -30,6 +30,9 @@ namespace practica_fmi.Controllers
             fm.FilePath = uploadFolder + fm.FileName;
             file.SaveAs(fm.FilePath); // save pe server
             fm.Date = DateTime.Now;
+            fm.FileExtension = Path.GetExtension(file.FileName);
+            if (fm.FileExtension != "pdf" && fm.FileExtension != "ppx" && fm.FileExtension != "txt" && fm.FileExtension != "zip")
+                fm.FileExtension = "other";
 
             if(User.IsInRole("Admin"))
             {

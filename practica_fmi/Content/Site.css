@@ -92,3 +92,9 @@ textarea {
 .delete-file{
     margin-left: 10px;
 }
+
+.file-image{
+    max-height: 50px;
+    max-width: 50px;
+    display:inline-block;
+}
