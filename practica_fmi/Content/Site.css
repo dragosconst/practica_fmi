@@ -16,9 +16,79 @@
     white-space: normal;
 }
 
+.moodle-navbar {
+    background-color: #022169;
+}
+
 /* Set width on the form input elements since they're 100% wide by default */
 input,
 select,
 textarea {
     max-width: 280px;
+}
+
+.moodle-panel {
+    width: 30%;
+    display: inline-block;
+    background-repeat: no-repeat;
+    height: 20%;
+    -webkit-background-size: cover;
+    background-size: cover;
+    background-position: center;
+    margin-left: 10px;
+    margin-right:10px;
+}
+
+.moodle-panel:hover{
+    transform: scale(1.07);
+    z-index: 1000;
+}
+
+.prof-text{
+    display: inline-block;
+}
+
+.curs-title{
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.curs-image{
+    background-repeat: repeat-y;
+}
+
+.header{
+    height: 20%;
+    width: 100%;
+}
+
+.header img{
+    background-repeat: 100%;
+}
+
+.fancy-panel {
+    width: 95%;
+    height: 100%;
+    background-color: #f8f8f8; 
+
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.curs-buttons{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.delete-file{
+    margin-left: 10px;
 }

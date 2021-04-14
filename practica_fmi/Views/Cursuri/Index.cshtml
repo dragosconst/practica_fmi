@@ -1,4 +1,11 @@
-﻿
+﻿<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="@Url.Content("~/Content/Site.css")"
+          rel="stylesheet" type="text/css" />
+</head>
 @{
     ViewBag.Title = "Index";
 }
@@ -30,19 +37,27 @@
         }
         if (ViewBag.showCourse)
         {
+            <div class="moodle-panel">
             <div class="panel panel-default">
-                <p>@curs.Denumire </p>
-                <p><b>Profesori:</b></p>
-                @foreach (practica_fmi.Models.Profesor prof in curs.Profesors)
-                {
-                    <p>@prof.Nume  @prof.Prenume</p>
-                }
-                <p><b>Studenți:</b></p>
+                <div class="header">
+                    <picture>
+                        <img class="curs-image" id="@curs.BackgroundId" src=@("/Backgrounds/b" + curs.BackgroundId + ".png") />
+                    </picture>
+                </div>
+                <p class="curs-title"><b>@curs.Denumire </b></p>
+                <b>Profesori:</b>
+                <div class="prof-text">
+                    @foreach (practica_fmi.Models.Profesor prof in curs.Profesors)
+                    {
+                        <div>@prof.Nume  @prof.Prenume</div>
+                    }
+                </div>
+                <!--<p><b>Studenți:</b></p>
                 @foreach (practica_fmi.Models.Student student in curs.Students)
                 {
                     <p>@student.Nume  @student.Prenume</p>
                 }
-                <br />
+                <br />-->
                 <div class="panel-footer">
                     @if (ViewBag.admin)
                     {
@@ -58,8 +73,10 @@
                     <div class="clearfix"></div>
                 </div>
             </div>
+            </div>
         }
     }
+    <br />
     @if(ViewBag.admin)
     {
         <a href="/Cursuri/New/" class="btn btn-success">Adaugă un curs nou</a>

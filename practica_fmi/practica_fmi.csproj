@@ -207,6 +207,20 @@
     <Content Include="App_Data\Database1_log.ldf">
       <DependentUpon>Database1.mdf</DependentUpon>
     </Content>
+    <Content Include="Backgrounds\b1.png" />
+    <Content Include="Backgrounds\b10.png" />
+    <Content Include="Backgrounds\b11.png" />
+    <Content Include="Backgrounds\b12.png" />
+    <Content Include="Backgrounds\b13.png" />
+    <Content Include="Backgrounds\b14.png" />
+    <Content Include="Backgrounds\b2.png" />
+    <Content Include="Backgrounds\b3.png" />
+    <Content Include="Backgrounds\b4.png" />
+    <Content Include="Backgrounds\b5.png" />
+    <Content Include="Backgrounds\b6.png" />
+    <Content Include="Backgrounds\b7.png" />
+    <Content Include="Backgrounds\b8.png" />
+    <Content Include="Backgrounds\b9.png" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -229,6 +243,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\summernote_stuff.js" />
+    <Content Include="Scripts\utils.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

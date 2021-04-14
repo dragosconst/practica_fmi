@@ -20,6 +20,9 @@ namespace practica_fmi.Models
 
         [Required(ErrorMessage = "Denumirea e obligatorie")]
         public string Denumire { get; set; }
+
+        // poza folosita pentru background
+        public int BackgroundId { get; set; }
         
         public virtual ICollection<Profesor> Profesors { get; set; }
         public virtual ICollection<Student> Students { get; set; }

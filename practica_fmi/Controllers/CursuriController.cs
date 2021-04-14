@@ -100,9 +100,12 @@ namespace practica_fmi.Controllers
                         }
                     }
 
+                    System.Random r = new System.Random();
+
                     toAdd.Denumire = newCurs.Curs.Denumire;
                     toAdd.Profesors = selProfs;
                     toAdd.Students = selStudents;
+                    toAdd.BackgroundId = r.Next(1, 14);
                     db.Cursuri.Add(toAdd);
                     db.SaveChanges();
                     TempData["message"] = "Un curs nou a fost adaugat";
