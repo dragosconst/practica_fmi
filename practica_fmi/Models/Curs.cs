@@ -23,6 +23,9 @@ namespace practica_fmi.Models
 
         // poza folosita pentru background
         public int BackgroundId { get; set; }
+
+        [Required(ErrorMessage = "Trebuie introdus un semestru")]
+        public int Semestru { get; set; }
         
         public virtual ICollection<Profesor> Profesors { get; set; }
         public virtual ICollection<Student> Students { get; set; }

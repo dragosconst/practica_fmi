@@ -21,6 +21,11 @@
     <label>Adaugă student</label>
     @Html.ListBoxFor(c => c.SelectedStudentsIds, Model.AllStudentIds)
     @Html.ValidationMessageFor(c => c.SelectedStudentsIds, null, new { @class = "text-danger" })
+    <br />
+    @Html.LabelFor(c => c.Curs.Semestru, "Semestru", new { htmlAttributes = new { @class = "form-control" } })
+    @Html.EditorFor(c => c.Curs.Semestru)
+    @Html.ValidationMessageFor(c => c.Curs.Semestru, null, new { @class = "text-danger" })
+    <br />
     <button type="submit" class="btn btn-success">Adaugă</button>
 }
 

@@ -8,23 +8,25 @@
 <div>
     @foreach (practica_fmi.Models.Student student in ViewBag.students)
     {
-        <div class="panel panel-default">
-            <p>@student.Nume @student.Prenume</p>
+    <div class="panel panel-default">
+        <div class="fancy-panel">
+            <h1>@student.Nume @student.Prenume</h1>
             <br />
-            <p>@student.AnStudiu</p>
+            <h2>An studiu: @student.AnStudiu</h2>
             <br />
-            <p>@student.Email</p>
+            <p>email: @student.Email</p>
             <br />
-            <div class="panel-footer">
-                <a href="/Students/Edit/@student.StudentId" class="btn btn-primary pull-left">Editează</a>
-                <form method="post" action="/Students/Delete/@student.StudentId">
-                    @Html.HttpMethodOverride(HttpVerbs.Delete)
-                    <button class="btn btn-danger pull-right" type="submit">Șterge</button>
-                </form>
-                <div class="clearfix"></div>
-            </div>
         </div>
-    }
-    <a href="/Students/New/" class="btn btn-success">Adaugă un student nou</a>
-</div>
+        <div class="panel-footer">
+            <a href="/Students/Edit/@student.StudentId" class="btn btn-primary pull-left">Editează</a>
+            <form method="post" action="/Students/Delete/@student.StudentId">
+                @Html.HttpMethodOverride(HttpVerbs.Delete)
+                <button class="btn btn-danger pull-right" type="submit">Șterge</button>
+            </form>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+        }
+        <a href="/Students/New/" class="btn btn-success">Adaugă un student nou</a>
+    </div>
 

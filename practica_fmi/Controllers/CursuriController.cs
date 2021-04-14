@@ -103,6 +103,7 @@ namespace practica_fmi.Controllers
                     System.Random r = new System.Random();
 
                     toAdd.Denumire = newCurs.Curs.Denumire;
+                    toAdd.Semestru = newCurs.Curs.Semestru;
                     toAdd.Profesors = selProfs;
                     toAdd.Students = selStudents;
                     toAdd.BackgroundId = r.Next(1, 14);
@@ -213,6 +214,7 @@ namespace practica_fmi.Controllers
                     }
 
                     toChange.Denumire = reqCurs.Curs.Denumire;
+                    toChange.Semestru = reqCurs.Curs.Semestru;
                     toChange.Profesors = selProfs;
                     toChange.Students = selStudents;
                     

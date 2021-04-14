@@ -9,12 +9,14 @@
     @foreach (practica_fmi.Models.Profesor profesor in ViewBag.profs)
     {
         <div class="panel panel-default">
-            <p>@profesor.Nume @profesor.Prenume</p>
-            <br />
-            <p>@profesor.GradDidactic</p>
-            <br />
-            <p>@profesor.Email</p>
-            <br />
+            <div class="fancy-panel">
+                <h1>@profesor.Nume @profesor.Prenume</h1>
+                <hr />    
+                <h2>Grad didactic: @profesor.GradDidactic</h2>
+                <br />
+                <p>email: @profesor.Email</p>
+                <br />
+            </div>
             <div class="panel-footer">
                 <a href="/Profesors/Edit/@profesor.ProfesorId" class="btn btn-primary pull-left">Editează</a>
                 <form method="post" action="/Profesors/Delete/@profesor.ProfesorId">
