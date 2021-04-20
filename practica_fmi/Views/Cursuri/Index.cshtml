@@ -59,143 +59,146 @@
 }
 
 <h2>@ViewBag.Message</h2>
-<h2>Toate cursurile</h2>
 
-<h2>Semestrul 1</h2>
-<div>
-    @foreach (practica_fmi.Models.Curs curs in ViewBag.curs)
-    {
-        ViewBag.showCourse = false;
-        if (ViewBag.prof)
+<div class="fancy-panel">
+    <h2>Semestrul 1</h2>
+    <div>
+        @foreach (practica_fmi.Models.Curs curs in ViewBag.curs)
         {
-            if (curs.Profesors.Any(p => p.ProfesorId == ViewBag.pid))
+            ViewBag.showCourse = false;
+            if (ViewBag.prof)
+            {
+                if (curs.Profesors.Any(p => p.ProfesorId == ViewBag.pid))
+                {
+                    ViewBag.showCourse = true;
+                }
+            }
+            if (ViewBag.student)
+            {
+                if (curs.Students.Any(s => s.StudentId == ViewBag.sid))
+                {
+                    ViewBag.showCourse = true;
+                }
+            }
+            if (ViewBag.admin)
             {
                 ViewBag.showCourse = true;
             }
-        }
-        if (ViewBag.student)
-        {
-            if (curs.Students.Any(s => s.StudentId == ViewBag.sid))
+            if (ViewBag.showCourse && curs.Semestru == 1)
             {
-                ViewBag.showCourse = true;
-            }
-        }
-        if (ViewBag.admin)
-        {
-            ViewBag.showCourse = true;
-        }
-        if (ViewBag.showCourse && curs.Semestru == 1)
-        {
-            <div class="moodle-panel">
-                <div class="panel panel-default">
-                    <div class="header">
-                        <picture>
-                            <img class="curs-image" id="@curs.BackgroundId" src=@("/Backgrounds/b" + curs.BackgroundId + ".png") />
-                        </picture>
-                    </div>
-                    <p class="curs-title"><b>@curs.Denumire </b></p>
-                    <b>Profesori:</b>
-                    <div class="prof-text">
-                        @foreach (practica_fmi.Models.Profesor prof in curs.Profesors)
+                <div class="moodle-panel">
+                    <div class="panel panel-default">
+                        <div class="header">
+                            <picture>
+                                <img class="curs-image" id="@curs.BackgroundId" src=@("/Backgrounds/b" + curs.BackgroundId + ".png") />
+                            </picture>
+                        </div>
+                        <p class="curs-title"><b>@curs.Denumire </b></p>
+                        <b>Profesori:</b>
+                        <div class="prof-text">
+                            @foreach (practica_fmi.Models.Profesor prof in curs.Profesors)
+                            {
+                                <div>@prof.Nume  @prof.Prenume</div>
+                            }
+                        </div>
+                        <!--<p><b>Studenți:</b></p>
+                        @foreach (practica_fmi.Models.Student student in curs.Students)
                         {
-                            <div>@prof.Nume  @prof.Prenume</div>
+                            <p>@student.Nume  @student.Prenume</p>
                         }
-                    </div>
-                    <!--<p><b>Studenți:</b></p>
-                    @foreach (practica_fmi.Models.Student student in curs.Students)
-                    {
-                        <p>@student.Nume  @student.Prenume</p>
-                    }
-                    <br />-->
-                    <div class="panel-footer">
-                        @if (ViewBag.admin)
-                        {
-                            <a href="/Cursuri/Edit/@curs.CursId" class="btn btn-primary pull-left">Editează</a>
-                        }
-                        <a href="/Cursuri/Show/@curs.CursId" class="btn btn-info pull-left">Deschide</a>
-                        @if (ViewBag.admin)
-                        {<form method="post" action="/Cursuri/Delete/@curs.CursId">
-                                @Html.HttpMethodOverride(HttpVerbs.Delete)
-                                <button class="btn btn-danger pull-right" type="submit">Șterge</button>
-                            </form>
-                        }
-                        <div class="clearfix"></div>
+                        <br />-->
+                        <div class="panel-footer">
+                            @if (ViewBag.admin)
+                            {
+                                <a href="/Cursuri/Edit/@curs.CursId" class="btn btn-primary pull-left">Editează</a>
+                            }
+                            <a href="/Cursuri/Show/@curs.CursId" class="btn btn-info pull-left">Deschide</a>
+                            @if (ViewBag.admin)
+                            {<form method="post" action="/Cursuri/Delete/@curs.CursId">
+                                    @Html.HttpMethodOverride(HttpVerbs.Delete)
+                                    <button class="btn btn-danger pull-right" type="submit">Șterge</button>
+                                </form>
+                            }
+                            <div class="clearfix"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
         }
-    }
-    <br />
+        <br />
+    </div>
 </div>
 
-<h2>Semestrul 2</h2>
-<hr />
-<div>
-    @foreach (practica_fmi.Models.Curs curs in ViewBag.curs)
-    {
-        ViewBag.showCourse = false;
-        if (ViewBag.prof)
+<div class="fancy-panel">
+    <h2>Semestrul 2</h2>
+    <hr />
+    <div>
+        @foreach (practica_fmi.Models.Curs curs in ViewBag.curs)
         {
-            if (curs.Profesors.Any(p => p.ProfesorId == ViewBag.pid))
+            ViewBag.showCourse = false;
+            if (ViewBag.prof)
+            {
+                if (curs.Profesors.Any(p => p.ProfesorId == ViewBag.pid))
+                {
+                    ViewBag.showCourse = true;
+                }
+            }
+            if (ViewBag.student)
+            {
+                if (curs.Students.Any(s => s.StudentId == ViewBag.sid))
+                {
+                    ViewBag.showCourse = true;
+                }
+            }
+            if (ViewBag.admin)
             {
                 ViewBag.showCourse = true;
             }
-        }
-        if (ViewBag.student)
-        {
-            if (curs.Students.Any(s => s.StudentId == ViewBag.sid))
+            if (ViewBag.showCourse && curs.Semestru == 2)
             {
-                ViewBag.showCourse = true;
-            }
-        }
-        if (ViewBag.admin)
-        {
-            ViewBag.showCourse = true;
-        }
-        if (ViewBag.showCourse && curs.Semestru == 2)
-        {
-            <div class="moodle-panel">
-                <div class="panel panel-default">
-                    <div class="header">
-                        <picture>
-                            <img class="curs-image" id="@curs.BackgroundId" src=@("/Backgrounds/b" + curs.BackgroundId + ".png") />
-                        </picture>
-                    </div>
-                    <p class="curs-title"><b>@curs.Denumire </b></p>
-                    <b>Profesori:</b>
-                    <div class="prof-text">
-                        @foreach (practica_fmi.Models.Profesor prof in curs.Profesors)
+                <div class="moodle-panel">
+                    <div class="panel panel-default">
+                        <div class="header">
+                            <picture>
+                                <img class="curs-image" id="@curs.BackgroundId" src=@("/Backgrounds/b" + curs.BackgroundId + ".png") />
+                            </picture>
+                        </div>
+                        <p class="curs-title"><b>@curs.Denumire </b></p>
+                        <b>Profesori:</b>
+                        <div class="prof-text">
+                            @foreach (practica_fmi.Models.Profesor prof in curs.Profesors)
+                            {
+                                <div>@prof.Nume  @prof.Prenume</div>
+                            }
+                        </div>
+                        <!--<p><b>Studenți:</b></p>
+                        @foreach (practica_fmi.Models.Student student in curs.Students)
                         {
-                            <div>@prof.Nume  @prof.Prenume</div>
+                            <p>@student.Nume  @student.Prenume</p>
                         }
-                    </div>
-                    <!--<p><b>Studenți:</b></p>
-                    @foreach (practica_fmi.Models.Student student in curs.Students)
-                    {
-                        <p>@student.Nume  @student.Prenume</p>
-                    }
-                    <br />-->
-                    <div class="panel-footer">
-                        @if (ViewBag.admin)
-                        {
-                            <a href="/Cursuri/Edit/@curs.CursId" class="btn btn-primary pull-left">Editează</a>
-                        }
-                        <a href="/Cursuri/Show/@curs.CursId" class="btn btn-info pull-left">Deschide</a>
-                        @if (ViewBag.admin)
-                        {<form method="post" action="/Cursuri/Delete/@curs.CursId">
-                                @Html.HttpMethodOverride(HttpVerbs.Delete)
-                                <button class="btn btn-danger pull-right" type="submit">Șterge</button>
-                            </form>
-                        }
-                        <div class="clearfix"></div>
+                        <br />-->
+                        <div class="panel-footer">
+                            @if (ViewBag.admin)
+                            {
+                                <a href="/Cursuri/Edit/@curs.CursId" class="btn btn-primary pull-left">Editează</a>
+                            }
+                            <a href="/Cursuri/Show/@curs.CursId" class="btn btn-info pull-left">Deschide</a>
+                            @if (ViewBag.admin)
+                            {<form method="post" action="/Cursuri/Delete/@curs.CursId">
+                                    @Html.HttpMethodOverride(HttpVerbs.Delete)
+                                    <button class="btn btn-danger pull-right" type="submit">Șterge</button>
+                                </form>
+                            }
+                            <div class="clearfix"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
         }
-    }
-    <br />
-    @if (ViewBag.admin)
-    {
-        <a href="/Cursuri/New/" class="btn btn-success">Adaugă un curs nou</a>
-    }
+        <br />
+        @if (ViewBag.admin)
+        {
+            <a href="/Cursuri/New/" class="btn btn-success">Adaugă un curs nou</a>
+        }
+    </div>
 </div>

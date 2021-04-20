@@ -93,9 +93,10 @@ textarea {
     font-size: 23px;
 }
 
-.fancy-cell{
+.fancy-cell {
     margin: auto;
     user-select: none;
+    padding: 10px 10px;
 }
 
 .fancy-cell:hover{
