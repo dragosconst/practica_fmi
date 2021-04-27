@@ -1,0 +1,38 @@
+﻿@model practica_fmi.Models.Profesor
+@{
+    ViewBag.Title = "New";
+}
+
+<h2>@ViewBag.messsage</h2>
+
+@using (Html.BeginForm("New", "Profesors", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary()
+
+    <br />
+    @Html.Label("Nume", "Nume profesor")
+    @Html.TextBox("Nume", null, new { @class = "form-control" })
+    @Html.ValidationMessage("Nume", null, new { @class = "text-danger" })
+    <br />
+
+    <br />
+    @Html.Label("Prenume", "Prenume profesor")
+    @Html.TextBox("Prenume", null, new { @class = "form-control" })
+    @Html.ValidationMessage("Prenume", null, new { @class = "text-danger" })
+    <br />
+
+    <br />
+    @Html.Label("GradDidactic", "Grad didactic profesor")
+    @Html.TextBox("GradDidactic", null, new { @class = "form-control" })
+    @Html.ValidationMessage("GradDidactic", null, new { @class = "text-danger" })
+    <br />
+
+    <br />
+    @Html.Label("Email", "Email profesor")
+    @Html.TextBox("Email", null, new { @class = "form-control" })
+    @Html.ValidationMessage("Email", null, new { @class = "text-danger" })
+    <br />
+
+    <button type="submit" class="btn btn-success">Adaugă</button>
+}
+

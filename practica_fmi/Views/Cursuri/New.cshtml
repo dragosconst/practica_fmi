@@ -1,0 +1,31 @@
+﻿@model practica_fmi.Models.CursViewModel
+@{
+    ViewBag.Title = "New";
+}
+
+<h2>@ViewBag.messsage</h2>
+
+@using (Html.BeginForm("New", "Cursuri", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary()
+
+    <br />
+    @Html.Label("Denumire", "Denumire curs")
+    @Html.EditorFor(c => c.Curs.Denumire)
+    @Html.ValidationMessageFor(c => c.Curs.Denumire, null, new { @class = "text-danger" })
+    <br />
+    <label>Adaugă profesor</label>
+    @Html.ListBoxFor(c => c.SelectedProfIds, Model.AllProfIds)
+    @Html.ValidationMessageFor(c => c.SelectedProfIds, null, new { @class = "text-danger" })
+    <br />
+    <label>Adaugă student</label>
+    @Html.ListBoxFor(c => c.SelectedStudentsIds, Model.AllStudentIds)
+    @Html.ValidationMessageFor(c => c.SelectedStudentsIds, null, new { @class = "text-danger" })
+    <br />
+    @Html.LabelFor(c => c.Curs.Semestru, "Semestru", new { htmlAttributes = new { @class = "form-control" } })
+    @Html.EditorFor(c => c.Curs.Semestru)
+    @Html.ValidationMessageFor(c => c.Curs.Semestru, null, new { @class = "text-danger" })
+    <br />
+    <button type="submit" class="btn btn-success">Adaugă</button>
+}
+

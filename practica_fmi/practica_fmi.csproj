@@ -46,11 +46,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AntiXssLibrary, Version=4.3.0.0, Culture=neutral, PublicKeyToken=d127efab8a9c114f, processorArchitecture=MSIL">
+      <HintPath>..\packages\AntiXSS.4.3.0\lib\net40\AntiXssLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlSanitizationLibrary, Version=4.3.0.0, Culture=neutral, PublicKeyToken=d127efab8a9c114f, processorArchitecture=MSIL">
+      <HintPath>..\packages\AntiXSS.4.3.0\lib\net40\HtmlSanitizationLibrary.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
@@ -169,20 +175,29 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CursuriController.cs" />
+    <Compile Include="Controllers\FileModelsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ProfesorsController.cs" />
+    <Compile Include="Controllers\SectiuniController.cs" />
+    <Compile Include="Controllers\StudentsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202103312010210_Initial.cs" />
-    <Compile Include="Migrations\202103312010210_Initial.designer.cs">
-      <DependentUpon>202103312010210_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\202104021736171_rdInit.cs" />
+    <Compile Include="Migrations\202104021736171_rdInit.designer.cs">
+      <DependentUpon>202104021736171_rdInit.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Curs.cs" />
+    <Compile Include="Models\CursViewModel.cs" />
+    <Compile Include="Models\FileModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Profesor.cs" />
+    <Compile Include="Models\Sectiune.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -192,11 +207,30 @@
     <Content Include="App_Data\Database1_log.ldf">
       <DependentUpon>Database1.mdf</DependentUpon>
     </Content>
+    <Content Include="Backgrounds\b1.png" />
+    <Content Include="Backgrounds\b10.png" />
+    <Content Include="Backgrounds\b11.png" />
+    <Content Include="Backgrounds\b12.png" />
+    <Content Include="Backgrounds\b13.png" />
+    <Content Include="Backgrounds\b14.png" />
+    <Content Include="Backgrounds\b2.png" />
+    <Content Include="Backgrounds\b3.png" />
+    <Content Include="Backgrounds\b4.png" />
+    <Content Include="Backgrounds\b5.png" />
+    <Content Include="Backgrounds\b6.png" />
+    <Content Include="Backgrounds\b7.png" />
+    <Content Include="Backgrounds\b8.png" />
+    <Content Include="Backgrounds\b9.png" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
+    <Content Include="FileImages\other.png" />
+    <Content Include="FileImages\pdf.png" />
+    <Content Include="FileImages\ppx.png" />
+    <Content Include="FileImages\txt.ico" />
+    <Content Include="FileImages\zip.jpg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -213,6 +247,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\summernote_stuff.js" />
+    <Content Include="Scripts\utils.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -247,8 +283,23 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Profesors\Index.cshtml" />
+    <Content Include="Views\Profesors\New.cshtml" />
+    <Content Include="Views\Profesors\Edit.cshtml" />
+    <Content Include="Views\Students\Index.cshtml" />
+    <Content Include="Views\Students\Edit.cshtml" />
+    <Content Include="Views\Students\New.cshtml" />
+    <Content Include="Views\Cursuri\Index.cshtml" />
+    <Content Include="Views\Cursuri\Edit.cshtml" />
+    <Content Include="Views\Cursuri\New.cshtml" />
+    <Content Include="Views\Cursuri\Show.cshtml" />
+    <Content Include="Views\Sectiuni\New.cshtml" />
+    <Content Include="Views\Sectiuni\Edit.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Files\" />
+    <Folder Include="Views\FileModels\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -263,8 +314,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202103312010210_Initial.resx">
-      <DependentUpon>202103312010210_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202104021736171_rdInit.resx">
+      <DependentUpon>202104021736171_rdInit.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

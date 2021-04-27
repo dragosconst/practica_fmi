@@ -1,0 +1,100 @@
+﻿@model practica_fmi.Models.Curs
+@{
+    ViewBag.Title = "Show";
+}
+
+@if (ViewBag.faulty == true)
+{
+    <p>Cum ai ajuns aici?...</p>
+}
+else
+{
+    <div class="panel panel-default">
+        <div class="fancy-panel">
+            <h1>@Model.Denumire </h1>
+        </div>
+        <!--<p><b>Profesori:</b></p>
+    @foreach (practica_fmi.Models.Profesor prof in Model.Profesors)
+    {
+        <p>@prof.Nume  @prof.Prenume</p>
+    }
+    <p><b>Studenți:</b></p>
+    @foreach (practica_fmi.Models.Student student in Model.Students)
+    {
+        <p>@student.Nume  @student.Prenume</p>
+    }-->
+
+        <div class="fancy-panel">
+            @foreach (practica_fmi.Models.Sectiune sectiune in Model.Sectiuni)
+            {
+                <h1>@sectiune.Denumire</h1>
+                <hr style="border: none; height: 2px; background-color: lightgray;"/>
+                if (ViewBag.admin == true || ViewBag.prof == true)
+                {
+                    <a href="/Sectiuni/Edit/@sectiune.SectiuneId" class="glyphicon-pencil btn btn-primary pull-left"></a>
+                    <form method="post" action="/Sectiuni/Delete/@sectiune.SectiuneId">
+                        @Html.HttpMethodOverride(HttpVerbs.Delete)
+                        <button type="submit" class="glyphicon glyphicon-remove-sign btn btn-danger pull-right"></button>
+                    </form>
+                    <br />
+                    <br />
+                }
+                <p>
+                    @Html.Raw(sectiune.Descriere)
+                </p>
+
+                <br />
+
+                foreach (practica_fmi.Models.FileModel fileModel in sectiune.FileModels)
+                {
+                    <picture>
+                        <img class="file-image" src="@("/FileImages/" + fileModel.FileExtension + ".png")" />
+                    </picture>
+                    <div style="display: inline-block;">@fileModel.FileName, uploadat de @fileModel.ProfNume @fileModel.ProfPrenume</div>
+                    <br />
+                    <br />
+                    <form method="post" action="/FileModels/Download/@fileModel.FileId">
+                        <button type="submit" class="btn btn-primary pull-left">download</button>
+                    </form>
+                    if (ViewBag.admin == true || ViewBag.prof == true)
+                    {
+                        <form method="post" action="/FileModels/Delete/@fileModel.FileId">
+                            @Html.HttpMethodOverride(HttpVerbs.Delete)
+                            <button type="submit" class="btn btn-danger delete-file glyphicon glyphicon-remove-sign pull-left"></button>
+                        </form>
+                    }
+                    <br />
+                    <br />
+                }
+                if (ViewBag.admin == true || ViewBag.prof == true)
+                {
+                    <form method="post" action="/FileModels/AddFile/@sectiune.SectiuneId" enctype="multipart/form-data">
+                        <label for="file"></label>
+                        <input id="file" type="file" name="file" />
+                        <button type="submit" class="btn btn-success glyphicon glyphicon-ok-sign">  Upload</button>
+                    </form>
+                }
+                <br />
+            }
+        </div>
+
+        <br />
+        @if (ViewBag.admin == true || ViewBag.prof == true)
+        {
+            <a href="/Sectiuni/New/@Model.CursId" class="btn btn-primary curs-buttons">Adaugă secțiune</a>
+        }
+
+        <br />
+        <div class="panel-footer">
+            @if (ViewBag.admin == true)
+            {
+                <a href="/Cursuri/Edit/@Model.CursId" class="btn btn-primary pull-left">Editează</a>
+                <form method="post" action="/Cursuri/Delete/@Model.CursId">
+                    @Html.HttpMethodOverride(HttpVerbs.Delete)
+                    <button class="btn btn-danger pull-right" type="submit">Șterge</button>
+                </form>
+            }
+            <div class="clearfix"></div>
+        </div>
+    </div>
+}

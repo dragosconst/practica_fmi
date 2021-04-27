@@ -28,6 +28,9 @@ namespace practica_fmi.Models
 
         public DbSet<Student> Students { get; set; }
         public DbSet<Profesor> Profesors { get; set; }
+        public DbSet<Curs> Cursuri { get; set; }
+        public DbSet<Sectiune> Sectiuni { get; set; }
+        public DbSet<FileModel> FileModels { get; set; }
 
         public static ApplicationDbContext Create()
         {
