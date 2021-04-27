@@ -161,7 +161,7 @@ namespace practica_fmi.Controllers
         private void SetAccesRights()
         {
             // deoarece CRUD pe studenti poate face doar adminul, e imposibil ca metoda sa fie
-            // apelata de altcineva decat de un admins
+            // apelata de altcineva decat de un admin
             ViewBag.admin = true;
         }
     }

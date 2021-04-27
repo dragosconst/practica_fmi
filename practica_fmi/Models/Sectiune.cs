@@ -6,10 +6,6 @@ using System.Web;
 
 namespace practica_fmi.Models
 {
-    /*
-     * Nu o sa fac controller separat pentru sectiune si filemodels, ambele o sa fie contained in controller-ul de curs.
-     * Pentru a schimba un fisier, un profesor va trebui sa-l schimbe folosind interfata cursului.
-     */
     public class Sectiune
     {
         [Key]
