@@ -26,12 +26,30 @@
                         <li>@Html.ActionLink("Profesori", "Index", "Profesors")</li>
                         <li>@Html.ActionLink("Studenți", "Index", "Students")</li>
                     }
-                    
+
                     <li>@Html.ActionLink("Cursuri", "Index", "Cursuri")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
+    </div>
+    <br />
+    <div class="row justify-content-center">
+        <form id="search_form" class="card card-sm" method="GET">
+            <div class="card-body row no-gutters align-items-center right-pad">
+                <div class="col-auto">
+                    <i class="fas fa-search h4 text-body"></i>
+                </div><!--end of col-->
+                <div class="col-auto">
+                    <button class="btn btn-success pull-right glyphicon glyphicon-search" type="submit"></button>
+                </div><!--end of col-->
+                <div class="col">
+                    <input id="search_item" class="form-control form-control-lgform-control-borderless pull-right" type="text" name="search" value="@ViewBag.SearchStr" placeholder="Scrie numele cursului...">
+                </div><!--end of col-->
+            </div>
+
+        </form>
+        <!--end of col-->
     </div>
     @RenderSection("LeftMenu", required: false)
     <div class="container body-content">
@@ -48,10 +66,10 @@
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
     <script language="javascript" type="text/javascript" src="~/Scripts/summernote_stuff.js"></script>
     <script language="javascript" type="text/javascript" src="~/Scripts/utils.js"></script>
-@section LeftMenu
+    @section LeftMenu
 {
-    <p>test</p>
-}
+        <p>test</p>
+    }
 </body>
 
 </html>

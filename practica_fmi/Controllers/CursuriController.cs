@@ -23,12 +23,35 @@ namespace practica_fmi.Controllers
                           orderby curs.Denumire
                           select curs).AsQueryable();
 
+            var search = "";
+            if(Request.Params.Get("search") != null)
+            {
+                search = Request.Params.Get("search").Trim(); // ar trebui sa fie (parte din) denumirea unui curs
+
+                List<int> cursIds = db.Cursuri.Where(c => c.Denumire.ToUpper().Contains(search.ToUpper()))
+                                    .Select(c => c.CursId).ToList();
+                List<int> profIds = db.Profesors.Where(p => p.Cursuri.Select(c => c.CursId).AsEnumerable()
+                                    .Intersect(cursIds).Count() != 0)
+                                    .Select(p => p.ProfesorId).ToList();
+                return ProfSearch(cursIds, profIds);
+            }
+            
             if (TempData.ContainsKey("message"))
             {
                 ViewBag.Message = TempData["message"].ToString();
             }
             ViewBag.curs = curses;
             return View();
+        }
+
+        [Authorize(Roles = "Admin,Profesor,Student")]
+        public ActionResult ProfSearch(List<int> cursIds, List<int> profIds)
+        {
+            IEnumerable<Profesor> profesors = db.Profesors.Where(p => profIds.Contains(p.ProfesorId)).ToList();
+            IEnumerable<Curs> cursuri = db.Cursuri.Where(c => cursIds.Contains(c.CursId)).ToList();
+            ViewBag.profesors = profesors;
+            ViewBag.cursuri = cursuri;
+            return View("ProfSearch");
         }
 
         // toata lumea are voie sa vizualizeze un curs

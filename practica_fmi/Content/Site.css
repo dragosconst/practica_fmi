@@ -128,3 +128,7 @@ textarea {
 .width-15{
     max-width: 15%;
 }
+
+.right-pad{
+    margin-right: 400px;
+}

@@ -295,6 +295,7 @@
     <Content Include="Views\Cursuri\Show.cshtml" />
     <Content Include="Views\Sectiuni\New.cshtml" />
     <Content Include="Views\Sectiuni\Edit.cshtml" />
+    <Content Include="Views\Cursuri\ProfSearch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Files\" />

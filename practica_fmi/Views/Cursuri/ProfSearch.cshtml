@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewBag.Title = "ProfSearch";
+}
+
+<h3>
+    Profesorii care predau cursurile @foreach (practica_fmi.Models.Curs curs in ViewBag.cursuri)
+    {
+        @:<b>@curs.Denumire </b>,
+    } sunt:
+</h3>
+
+@foreach (practica_fmi.Models.Profesor profesor in ViewBag.profesors)
+{
+    <div class="panel panel-default">
+        <div class="fancy-panel">
+            <h1>@profesor.Nume @profesor.Prenume</h1>
+            <hr />
+            <h2>Grad didactic: @profesor.GradDidactic</h2>
+            <br />
+            <p>email: @profesor.Email</p>
+            <br />
+        </div>
+        <div class="panel-footer">
+            <div class="clearfix"></div>
+        </div>
+    </div>
+}
+
