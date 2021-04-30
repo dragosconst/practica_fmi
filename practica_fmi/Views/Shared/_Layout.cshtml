@@ -33,24 +33,28 @@
             </div>
         </div>
     </div>
-    <br />
-    <div class="row justify-content-center">
-        <form id="search_form" class="card card-sm" method="GET">
-            <div class="card-body row no-gutters align-items-center right-pad">
-                <div class="col-auto">
-                    <i class="fas fa-search h4 text-body"></i>
-                </div><!--end of col-->
-                <div class="col-auto">
-                    <button class="btn btn-success pull-right glyphicon glyphicon-search" type="submit"></button>
-                </div><!--end of col-->
-                <div class="col">
-                    <input id="search_item" class="form-control form-control-lgform-control-borderless pull-right" type="text" name="search" value="@ViewBag.SearchStr" placeholder="Scrie numele cursului...">
-                </div><!--end of col-->
-            </div>
+    @if (HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString() == "Cursuri"
+        && HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString() == "Index")
+    {
+        <br /> 
+        <div class="row justify-content-center">
+            <form id="search_form" class="card card-sm" method="GET">
+                <div class="card-body row no-gutters align-items-center right-pad">
+                    <div class="col-auto">
+                        <i class="fas fa-search h4 text-body"></i>
+                    </div><!--end of col-->
+                    <div class="col-auto">
+                        <button class="btn btn-success pull-right glyphicon glyphicon-search" type="submit"></button>
+                    </div><!--end of col-->
+                    <div class="col">
+                        <input id="search_item" class="form-control form-control-lgform-control-borderless pull-right" type="text" name="search" value="@ViewBag.SearchStr" placeholder="Scrie numele cursului...">
+                    </div><!--end of col-->
+                </div>
 
-        </form>
-        <!--end of col-->
-    </div>
+            </form>
+            <!--end of col-->
+        </div>
+    }
     @RenderSection("LeftMenu", required: false)
     <div class="container body-content">
         @RenderBody()
