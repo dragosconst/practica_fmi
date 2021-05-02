@@ -4,6 +4,7 @@
 }
 
 <h3>
+    Ați căutat cursuri care conțin <b>@ViewBag.search </b> <br />
     Profesorii care predau cursurile @foreach (practica_fmi.Models.Curs curs in ViewBag.cursuri)
     {
         @:<b>@curs.Denumire </b>,
@@ -20,6 +21,19 @@
             <br />
             <p>email: @profesor.Email</p>
             <br />
+            <h4>Cursuri predate (din rezultatele căutării): 
+                <ul>
+                    @foreach (practica_fmi.Models.Curs curs in ViewBag.cursuri)
+                    {
+                        if(profesor.Cursuri.Contains(curs))
+                        {
+                            <li>
+                                @curs.Denumire
+                            </li>
+                        }
+                    }
+                </ul>
+            </h4>
         </div>
         <div class="panel-footer">
             <div class="clearfix"></div>

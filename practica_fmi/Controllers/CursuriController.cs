@@ -33,7 +33,7 @@ namespace practica_fmi.Controllers
                 List<int> profIds = db.Profesors.Where(p => p.Cursuri.Select(c => c.CursId).AsEnumerable()
                                     .Intersect(cursIds).Count() != 0)
                                     .Select(p => p.ProfesorId).ToList();
-                return ProfSearch(cursIds, profIds);
+                return ProfSearch(search, cursIds, profIds);
             }
             
             if (TempData.ContainsKey("message"))
@@ -45,12 +45,13 @@ namespace practica_fmi.Controllers
         }
 
         [Authorize(Roles = "Admin,Profesor,Student")]
-        public ActionResult ProfSearch(List<int> cursIds, List<int> profIds)
+        public ActionResult ProfSearch(string search, List<int> cursIds, List<int> profIds)
         {
             IEnumerable<Profesor> profesors = db.Profesors.Where(p => profIds.Contains(p.ProfesorId)).ToList();
             IEnumerable<Curs> cursuri = db.Cursuri.Where(c => cursIds.Contains(c.CursId)).ToList();
             ViewBag.profesors = profesors;
             ViewBag.cursuri = cursuri;
+            ViewBag.search = search;
             return View("ProfSearch");
         }
 
