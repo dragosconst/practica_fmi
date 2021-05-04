@@ -57,8 +57,7 @@ namespace practica_fmi.Controllers
                     var newUser = new ApplicationUser();
                     newUser.Email = profesor.Email;
                     newUser.UserName = profesor.Email;
-
-                    // TODO: find better way to generate pass
+                    
                     var userCreated = UserManager.Create(newUser, profesor.Nume + profesor.Prenume);
                     if (userCreated.Succeeded)
                     {

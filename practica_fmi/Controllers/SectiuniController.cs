@@ -110,7 +110,6 @@ namespace practica_fmi.Controllers
         [Authorize(Roles = "Admin,Profesor")]
         public ActionResult Delete(int id)
         {
-            //TODO: check sa fie proful okay care da delete
             Sectiune toRemove = db.Sectiuni.Find(id);
             int cursId = toRemove.Curs.CursId;
             List<int> fids = new List<int>();
