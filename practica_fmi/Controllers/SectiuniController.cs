@@ -43,6 +43,10 @@ namespace practica_fmi.Controllers
                     db.Sectiuni.Add(newSec);
                     curs.Sectiuni.Add(newSec);
                     newSec.Curs = curs;
+                    if(!CheckProf(newSec))
+                    {
+                        return RedirectToAction("Show", "Cursuri", new { id = id });
+                    }
                     TempData["message"] = "Secțiune adăugată";
                     db.SaveChanges();
                     return RedirectToAction("Show", "Cursuri", new { id = id });
@@ -69,6 +73,10 @@ namespace practica_fmi.Controllers
         public ActionResult Edit(int id)
         {
             Sectiune toEdit = db.Sectiuni.Find(id);
+            if (!CheckProf(toEdit))
+            {
+                return RedirectToAction("Show", "Cursuri", new { id = toEdit.Curs.CursId });
+            }
             Curs curs = toEdit.Curs;
             ViewBag.curs = curs;
             return View(toEdit);
@@ -111,6 +119,10 @@ namespace practica_fmi.Controllers
         public ActionResult Delete(int id)
         {
             Sectiune toRemove = db.Sectiuni.Find(id);
+            if (!CheckProf(toRemove))
+            {
+                return RedirectToAction("Show", "Cursuri", new { id = toRemove.Curs.CursId });
+            }
             int cursId = toRemove.Curs.CursId;
             List<int> fids = new List<int>();
             foreach (var fm in toRemove.FileModels)
@@ -135,9 +147,19 @@ namespace practica_fmi.Controllers
 
         // Metoda ca sa ma asigur ca nu strica alti profi contentul de la alte cursuri
         [NonAction]
-        private void CheckProf(Sectiune sectiune)
+        private bool CheckProf(Sectiune sectiune)
         {
+            Curs curs = sectiune.Curs;
+            if(User.IsInRole("Profesor"))
+            {
+                String uid = User.Identity.GetUserId();
+                Profesor profesor = db.Profesors.Where(p => p.UserId == uid).ToList().First();
+                if (curs.Profesors.Contains(profesor))
+                    return true;
+                return false;
+            }
 
+            return true;
         }
     }
 }

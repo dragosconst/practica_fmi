@@ -365,7 +365,7 @@ namespace practica_fmi.Controllers
                 string uid = User.Identity.GetUserId();
                 Student student = (from std in db.Students
                                      where std.UserId == uid
-                                     select std).ToList().First(); // e sigur un singur prof in lista
+                                     select std).ToList().First(); // e sigur un singur student in lista
                 if(curs == null || curs.Students.Contains(student))
                 {
                     ViewBag.admin = false;
