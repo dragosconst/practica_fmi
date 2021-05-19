@@ -19,8 +19,7 @@ namespace practica_fmi.Controllers
         public ActionResult Index()
         {
             SetAccesRights();
-            var students = (from student in db.Students
-                         select student).AsQueryable();
+            var students = db.Students.AsQueryable();
 
             if (TempData.ContainsKey("message"))
             {
@@ -91,9 +90,7 @@ namespace practica_fmi.Controllers
         public ActionResult Edit(int id)
         {
             SetAccesRights();
-            Student student = (from std in db.Students
-                                 where std.StudentId == id
-                                 select std).First();
+            Student student = db.Students.Find(id);
 
             return View(student);
         }
@@ -106,9 +103,7 @@ namespace practica_fmi.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    Student student = (from std in db.Students
-                                         where std.StudentId == id
-                                         select std).First();
+                    Student student = db.Students.Find(id);
 
                     var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
 
@@ -144,9 +139,7 @@ namespace practica_fmi.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
-            Student student = (from std in db.Students
-                                 where std.StudentId == id
-                                 select std).First();
+            Student student = db.Students.Find(id);
             var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
             var user = UserManager.FindByEmail(student.Email);
             db.Users.Remove(user);

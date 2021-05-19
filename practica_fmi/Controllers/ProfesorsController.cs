@@ -20,8 +20,7 @@ namespace practica_fmi.Controllers
         public ActionResult Index()
         {
             SetAccesRights();
-            var profs = (from prof in db.Profesors
-                         select prof).AsQueryable();
+            var profs = db.Profesors.AsQueryable();
 
             if (TempData.ContainsKey("message"))
             {
@@ -91,9 +90,8 @@ namespace practica_fmi.Controllers
         public ActionResult Edit(int id)
         {
             SetAccesRights();
-            Profesor profesor = (from prof in db.Profesors
-                                 where prof.ProfesorId == id
-                                 select prof).First();
+            Profesor profesor = db.Profesors.Where(p => p.ProfesorId == id)
+                                .First();
 
             return View(profesor);
         }
@@ -106,9 +104,7 @@ namespace practica_fmi.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    Profesor profesor = (from prof in db.Profesors
-                                         where prof.ProfesorId == id
-                                         select prof).First();
+                    Profesor profesor = db.Profesors.Find(id);
 
                     var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
 
@@ -144,9 +140,7 @@ namespace practica_fmi.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
-            Profesor profesor = (from prof in db.Profesors
-                                 where prof.ProfesorId == id
-                                 select prof).First();
+            Profesor profesor = db.Profesors.Find(id);
             var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
             var user = UserManager.FindByEmail(profesor.Email);
             db.Users.Remove(user);

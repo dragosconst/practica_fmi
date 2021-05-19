@@ -19,9 +19,7 @@ namespace practica_fmi.Controllers
         public ActionResult Index()
         {
             SetAccesRights(null);
-            var curses = (from curs in db.Cursuri
-                          orderby curs.Denumire
-                          select curs).AsQueryable();
+            var courses = db.Cursuri.OrderBy(c => c.Denumire).AsQueryable();
 
             var search = "";
             if(Request.Params.Get("search") != null)
@@ -40,7 +38,7 @@ namespace practica_fmi.Controllers
             {
                 ViewBag.Message = TempData["message"].ToString();
             }
-            ViewBag.curs = curses;
+            ViewBag.curs = courses;
             return View();
         }
 
@@ -345,9 +343,8 @@ namespace practica_fmi.Controllers
             else if(User.IsInRole("Profesor"))
             {
                 string uid = User.Identity.GetUserId();
-                Profesor profesor = (from prof in db.Profesors
-                                     where prof.UserId == uid
-                                     select prof).ToList().First(); // e sigur un singur prof in lista
+                Profesor profesor = db.Profesors.Where(p => p.UserId == uid)
+                                    .ToList().First(); // e sigur un singur prof in lista
                 if(curs == null || curs.Profesors.Contains(profesor))
                 {
                     ViewBag.admin = false;
@@ -363,9 +360,8 @@ namespace practica_fmi.Controllers
             else if (User.IsInRole("Student"))
             {
                 string uid = User.Identity.GetUserId();
-                Student student = (from std in db.Students
-                                     where std.UserId == uid
-                                     select std).ToList().First(); // e sigur un singur student in lista
+                Student student = db.Students.Where(s => s.UserId == uid)
+                                  .ToList().First(); // e sigur un singur student in lista
                 if(curs == null || curs.Students.Contains(student))
                 {
                     ViewBag.admin = false;

@@ -42,9 +42,8 @@ namespace practica_fmi.Controllers
             else
             {
                 string uid = User.Identity.GetUserId();
-                Profesor profesor = (from prof in db.Profesors
-                                     where prof.UserId == uid
-                                     select prof).ToList().First();
+                Profesor profesor = db.Profesors.Where(p => p.UserId == uid)
+                                    .ToList().First();
                 fm.ProfNume = profesor.Nume;
                 fm.ProfPrenume = profesor.Prenume;
             }
