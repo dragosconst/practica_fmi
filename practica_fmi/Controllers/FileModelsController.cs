@@ -23,7 +23,6 @@ namespace practica_fmi.Controllers
             if (file == null)
                 return RedirectToAction("Show", "Cursuri", new { id = sectiune.Curs.CursId });
             fm.FileName = file.FileName;
-            // momentan ii dam voie sa dea upload la ce vrea
             if (!System.IO.Directory.Exists(Server.MapPath("~/Files/" + User.Identity.GetUserId() + "/")))
                 System.IO.Directory.CreateDirectory(Server.MapPath("~/Files/" + User.Identity.GetUserId() + "/"));
             string uploadFolder = Server.MapPath("~/Files/" + User.Identity.GetUserId() + "/");
