@@ -18,7 +18,7 @@
 
 .moodle-navbar {
     background-color: #022169;
-    color: white;
+    color: white !important;
 }
 
 /* Set width on the form input elements since they're 100% wide by default */

@@ -17,17 +17,17 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("moodle", "Index", "Cursuri", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("moodle", "Index", "Cursuri", new { area = "" }, new { @class = "navbar-brand moodle-navbar" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     @if (ViewBag.admin == true)
                     {
-                        <li>@Html.ActionLink("Profesori", "Index", "Profesors")</li>
-                        <li>@Html.ActionLink("Studenți", "Index", "Students")</li>
+                        <li>@Html.ActionLink("Profesori", "Index", "Profesors", new { area = "" }, new { @class = "moodle-navbar" })</li>
+                        <li>@Html.ActionLink("Studenți", "Index", "Students", new { area = "" }, new { @class = "moodle-navbar" })</li>
                     }
 
-                    <li>@Html.ActionLink("Cursuri", "Index", "Cursuri")</li>
+                    <li>@Html.ActionLink("Cursuri", "Index", "Cursuri", new { area = "" }, new { @class = "moodle-navbar" })</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
