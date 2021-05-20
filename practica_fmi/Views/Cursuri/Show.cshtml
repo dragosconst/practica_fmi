@@ -50,7 +50,7 @@ else
                     <picture>
                         <img class="file-image" src="@("/FileImages/" + fileModel.FileExtension + ".png")" />
                     </picture>
-                    <div style="display: inline-block;">@fileModel.FileName, uploadat de @fileModel.ProfNume @fileModel.ProfPrenume</div>
+                    <div style="display: inline-block;">@fileModel.FileName, uploadat de @fileModel.ProfNume @fileModel.ProfPrenume, la data de @fileModel.Date</div>
                     <br />
                     <br />
                     <form method="post" action="/FileModels/Download/@fileModel.FileId">
