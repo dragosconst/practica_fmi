@@ -19,6 +19,10 @@ namespace practica_fmi.Controllers
         public ActionResult New(int id)
         {
             Curs curs = db.Cursuri.Find(id);
+            if (!CheckProf(curs))
+            {
+                return RedirectToAction("Show", "Cursuri", new { id = curs.CursId });
+            }
             Sectiune sectiune = new Sectiune();
             if (TempData.ContainsKey("message"))
             {
@@ -43,7 +47,7 @@ namespace practica_fmi.Controllers
                     db.Sectiuni.Add(newSec);
                     curs.Sectiuni.Add(newSec);
                     newSec.Curs = curs;
-                    if(!CheckProf(newSec))
+                    if(!CheckProf(newSec.Curs))
                     {
                         return RedirectToAction("Show", "Cursuri", new { id = id });
                     }
@@ -73,7 +77,7 @@ namespace practica_fmi.Controllers
         public ActionResult Edit(int id)
         {
             Sectiune toEdit = db.Sectiuni.Find(id);
-            if (!CheckProf(toEdit))
+            if (!CheckProf(toEdit.Curs))
             {
                 return RedirectToAction("Show", "Cursuri", new { id = toEdit.Curs.CursId });
             }
@@ -119,7 +123,7 @@ namespace practica_fmi.Controllers
         public ActionResult Delete(int id)
         {
             Sectiune toRemove = db.Sectiuni.Find(id);
-            if (!CheckProf(toRemove))
+            if (!CheckProf(toRemove.Curs))
             {
                 return RedirectToAction("Show", "Cursuri", new { id = toRemove.Curs.CursId });
             }
@@ -147,9 +151,8 @@ namespace practica_fmi.Controllers
 
         // Metoda ca sa ma asigur ca nu strica alti profi contentul de la alte cursuri
         [NonAction]
-        private bool CheckProf(Sectiune sectiune)
+        private bool CheckProf(Curs curs)
         {
-            Curs curs = sectiune.Curs;
             if(User.IsInRole("Profesor"))
             {
                 String uid = User.Identity.GetUserId();
